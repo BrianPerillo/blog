@@ -12,7 +12,7 @@ class Role extends Model
     use HasFactory;
 
         //Relación N:N - Acceder a Usuarios de un Rol:
-        public function roles(){         //En este caso (N:N) el método que usamos de ambos lados es belongsToMany()
+        public function users(){         //En este caso (N:N) el método que usamos de ambos lados es belongsToMany()
             return $this->belongsToMany(User::class);
         }
 

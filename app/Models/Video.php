@@ -14,5 +14,9 @@ class Video extends Model
         return $this->belongsTo(User::class);  //Para Relación 1:N inversa se usa el belongsTo();
     } 
     
+    //Relación 1:N Polimórfica - 1 Video puede tener N comments, entonces ===> morphMany();
+    public function comments(){
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 
 }

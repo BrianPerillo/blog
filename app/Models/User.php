@@ -15,6 +15,7 @@ use App\Models\Profile;
 use App\Models\Post;
 use App\Models\Video;
 use App\Models\Role;
+use App\Models\Comment;
 
 class User extends Authenticatable
 {
@@ -94,6 +95,16 @@ class User extends Authenticatable
     //Relación N:N - Acceder a Roles de un Usuario:
     public function roles(){            //En este caso el método que usamos de ambos lados es belongsToMany()
         return $this->belongsToMany(Role::class);
+    }
+
+    //Relación 1:1 Polimórfica - 1 user puede tener 1 img entonces ===> morphOne();
+    public function image(){
+        return $this->morphOne(Image::class, 'imageable');
+    }
+  
+    //Relación 1:N - 1 User puede tener/realizar N Comments
+    public function comments(){
+        return $this->hasMany(Comment::class);
     }
 
 }
