@@ -26,7 +26,7 @@ class Post extends Model
 
     //Relación 1:N Polimórfica - 1 post puede tener N comments, entonces ===> morphMany();
     public function comments(){
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable')->orderBy('id', 'DESC');
     }
     
 }

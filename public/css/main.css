@@ -1,0 +1,28 @@
+.container-masonry{
+  display: flex;
+  flex-flow: column wrap;
+  align-content: space-between;
+  /* Your container needs a fixed height, and it 
+   * needs to be taller than your tallest column. */
+  height: 1100px;
+}
+
+.item {
+  width: 33%;
+  margin:4px;
+}
+
+
+/* Re-order items into 3 rows */
+.item:nth-child(3n+1) { order: 1; }
+.item:nth-child(3n+2) { order: 2; }
+.item:nth-child(3n)   { order: 3; }
+
+/* Force new columns */
+.container-masonry::before,
+.container-masonry::after {
+  content: "";
+  flex-basis: 100%;
+  width: 0;
+  order: 2;
+}

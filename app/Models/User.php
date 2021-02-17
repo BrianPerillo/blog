@@ -16,6 +16,7 @@ use App\Models\Post;
 use App\Models\Video;
 use App\Models\Role;
 use App\Models\Comment;
+use App\Models\Answer;
 
 class User extends Authenticatable
 {
@@ -87,6 +88,10 @@ class User extends Authenticatable
         return $this->hasMany(Post::class); //Para Relación 1:N se usa el hasMany() de un lado y el belongsTo() del otro.
     }
     
+    public function last_post(){                
+        return $this->hasMany(Post::class)->orderBy('id', 'DESC')->first();
+    }
+
     //Relación 1:N - Acceder a Videos desde User:
     public function videos(){                //videos en plural porque un usuario puede tener muchos videos.
         return $this->hasMany(Video::class); //Para Relación 1:N se usa el hasMany() de un lado y el belongsTo() del otro.
@@ -105,6 +110,11 @@ class User extends Authenticatable
     //Relación 1:N - 1 User puede tener/realizar N Comments
     public function comments(){
         return $this->hasMany(Comment::class);
+    }
+
+    //Relación 1:N - 1 User puede tener/realizar N Respuestas
+    public function answers(){
+        return $this->hasMany(Answer::class);
     }
 
 }
