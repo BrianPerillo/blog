@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <allow-navigation href="https://*youtube.com/*"/>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,10 +16,22 @@
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         <script src="{{ asset('js/main.js') }}"></script>
         <script src="{{ asset('js/jquery-3.5.1.slim.min.js') }}"></script>
+        <!--Editor de Textos
+        <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/balloon/ckeditor.js"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/balloon-block/ckeditor.js"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/decoupled-document/ckeditor.js"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/inline/ckeditor.js"></script>
+        <script src="//cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+        -->
+        <script src="{{asset('vendor/ckeditor/ckeditor.js')}}"></script>
+        <!-- Bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
+        <!-- CKFinder scripts -->
+        @include('ckfinder::setup')
+        
         @livewireStyles
 
         <!-- Scripts -->

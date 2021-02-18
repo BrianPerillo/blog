@@ -57,7 +57,7 @@ class PostController extends Controller
         $id_post = auth()->user()->last_post()->id;
 
         $cover = new Image();
-        $cover->url = "$request->cover";
+        $cover->url = "$request->cover_url";
         $cover->imageable_id = "$id_post";
         $cover->imageable_type = "App\Models\Post";
         $cover->save();
@@ -102,7 +102,7 @@ class PostController extends Controller
         $comment->message = "$request->comment";
         $comment->commentable_id = "$post->id";
         $comment->commentable_type = "App\Models\Post";
-        $comment->user_id = auth()->user()->id;
+        $comment->user_id = auth()->user()->id; //Este dato al ser un DATO SENSIBLE aunque podría pasarlo la vista con un input hidden directamente lo pide el Controller
         $comment->save();
 
         return redirect()->route('posts.show', [$post->id, $post->name]);
@@ -113,7 +113,7 @@ class PostController extends Controller
         $answer = new Answer();
 
         $answer->body = "$request->answer";
-        $answer->user_id = auth()->user()->id;
+        $answer->user_id = auth()->user()->id; //Este dato al ser un DATO SENSIBLE aunque podría pasarlo la vista con un input hidden directamente lo pide el Controller
         $answer->comment_id = "$comment->id";
         $answer->save();
 
