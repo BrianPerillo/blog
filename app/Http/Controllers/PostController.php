@@ -39,11 +39,16 @@ class PostController extends Controller
 
     public function store(Request $request){
 
+        //los tags llegan en un string separados por coma(tag1,tag2,tag3) para convertir eso en un array donde cada palabra ocupe una posición se utiliza explode().
+        //return var_dump(explode(",",$request->tag_2));
+        //NOTA!: No hace falta igualmente, ya que lo más conveniente es que se guarden así como string en una columna "tags" dentro de la tabla post
+        //       ya que cuando se filtre por tag se usará el LIKE %nombre_tag% y por ende da igual que sea todo un solo string con comas
+
         $request->validate([                
             'name' => 'required|max:10',
             'body' => 'required|min:5',
             'category' => 'required',
-            'cover' => 'required'
+            //'cover' => 'required'
         ]);
         
         $post = new Post();
@@ -52,6 +57,7 @@ class PostController extends Controller
         $post->body = "$request->body";
         $post->category_id = "$request->category";
         $post->user_id = "$request->user_id";
+        $post->tags = "$request->tag_2"; 
         $post->save();
 
         $id_post = auth()->user()->last_post()->id;

@@ -11,7 +11,8 @@
             {{$post->id}}</br>
             {{$post->name}}</br>
             {!! $post->body !!}</br>
-            {{$post->category->name}}</br></br></br>
+            {{"Categoría: ".$post->category->name}}</br>
+            {{"Tags: ".$post->tags}}</br></br></br>
 
             <div class="mx-auto items-center justify-center max-w-xl">
 

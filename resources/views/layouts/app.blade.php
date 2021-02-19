@@ -16,15 +16,10 @@
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         <script src="{{ asset('js/main.js') }}"></script>
         <script src="{{ asset('js/jquery-3.5.1.slim.min.js') }}"></script>
-        <!--Editor de Textos
-        <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
-        <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/balloon/ckeditor.js"></script>
-        <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/balloon-block/ckeditor.js"></script>
-        <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/decoupled-document/ckeditor.js"></script>
-        <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/inline/ckeditor.js"></script>
-        <script src="//cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-        -->
+        <!--Editor de Textos-->
         <script src="{{asset('vendor/ckeditor/ckeditor.js')}}"></script>
+        <!--Tags-->                      
+
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
