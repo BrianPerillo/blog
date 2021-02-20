@@ -19,6 +19,8 @@ use App\Http\Controllers\CkeditorController;
 
 Route::get('/', [PostController::class, 'posts'])->name('dashboard');
 
+Route::post('/', [PostController::class, 'posts_filtrados'])->name('dashboard.filtros');
+
 //Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [PostController::class, 'posts'])->name('dashboard');
 
 Route::get('/{user}/posts', [PostController::class, 'posts_user'])->name('user.posts');

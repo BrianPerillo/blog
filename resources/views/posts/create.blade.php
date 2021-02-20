@@ -84,7 +84,7 @@
                            
   
                             <button class="btn btn-primary" id="clear">clear tags</button>
-                            <button class="btn btn-primary" id="get">get taggs</button>
+                            <button hidden class="btn btn-primary" id="get">get taggs</button>
 
                         </div>
 
@@ -92,7 +92,7 @@
 
                 <div class="row d-flex justify-center" style="margin-bottom:100px;background-color:white">
                                     
-                    <div class="form-group col-md-8" >
+                    <div class="form-group col-md-8">
                         <div class="form-group col-md-12 mt-20">
                             <p class="text-center"><strong>Crear Post</strong></p>
                             <textarea id="editor" name="body" placeholder="Escribe tu Post..." rows="10" cols="20">
@@ -110,16 +110,16 @@
 
                             </script>
                         </div> 
-                    
+                        <div class="form-group col-md-3">
+                          <button class="btn btn-primary" type="submit">Crear Post</button>
+                      </div>
                     </div>
 
                     <input type="text" name="user_id" value="{{auth()->user()->id}}" hidden>
 
                 </div>
 
-                <div class="form-group col-md-3">
-                    <button class="btn btn-primary" type="submit">Crear</button>
-                </div>
+
 
             </form>
 
