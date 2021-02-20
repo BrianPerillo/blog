@@ -54,6 +54,14 @@ class PostController extends Controller
                 }
             }
 
+            // Por tags 
+            $posts = Post::where("tags","like","%$request->search%")->get()->all();
+
+            if(sizeof($posts)>0){
+                return view('dashboard', compact('posts'));
+            }
+
+
 
             //En caso de no entcontrar resultados:
             return view('dashboard');

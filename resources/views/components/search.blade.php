@@ -4,16 +4,16 @@
     <div class="row col-md-12 m-0 mb-3 d-flex justify-content-center">
             <form action="{{route('dashboard.filtros')}}" class="col-md-3 mb-3" action="" method="post">
                 @csrf
-                <input class="col-md-12" type="text" name="search" id="" placeholder="Buscar por Título, Autor, Categoría o Tag" value="">
+                <input class="col-md-12" type="text" style="border-radius:20px" name="search" id="" placeholder="Buscar por Título, Autor, Categoría o Tag" value="">
             </form>
     </div>
 
     <!-- Dropdown Menu Filtros -->
     <div class="row col-md-12 m-0 mb-3 d-flex justify-content-center">
     
-        <div class="hidden sm:flex col-md-12">
+        <div class="hidden sm:flex col-md-12 p-0">
             <!-- Settings Dropdown -->
-            <div class="ml-3 relative col-md-12 d-flex justify-content-center">
+            <div class="relative col-md-12 p-0 d-flex justify-content-center">
                 <x-dropdown_para_search align="right" width="100">
                     <x-slot name="trigger">
                             <span class="inline-flex rounded-md">
