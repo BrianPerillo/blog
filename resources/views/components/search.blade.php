@@ -4,7 +4,10 @@
     <div class="row col-md-12 m-0 mb-3 d-flex justify-content-center">
             <form action="{{route('dashboard.filtros')}}" class="col-md-3 mb-3" action="" method="get">
                 
-                <input class="col-md-12" type="text" style="border-radius:20px" name="search" id="" placeholder="Buscar por Título, Autor, Categoría o Tag" value="">
+                <input id="search" class="col-md-12" type="text" style="border-radius:20px" name="search" 
+                placeholder="Buscar por Título, Autor, Categoría o Tag" 
+                value=""
+                onchange="lowerCase()">
             </form>
     </div>
 

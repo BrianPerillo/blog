@@ -20,7 +20,7 @@ class PostController extends Controller
     }
 
     public function posts_filtrados(Request $request){
-        
+
         // Establezco valores por defecto:
             $request->simbolo = "=";
             if(!isset($request->fecha)){
@@ -36,7 +36,7 @@ class PostController extends Controller
 
         // Consultas para el search
         if(isset($request->search)){
-
+            
             // Por Autor
                 $users = User::where("name","like","%$request->search%")->get()->all();
 
