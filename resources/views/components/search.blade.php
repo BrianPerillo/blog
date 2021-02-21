@@ -111,6 +111,7 @@
 
                                 <!-- Input que enciará el filtro que ya exista en la url --> 
                                 <input hidden id="filtro_preexistente" type="text" name="" value="">
+                                <input hidden id="filtro_preexistente2" type="text" name="" value="">
                     
                                 <div class="col-md-4 float-left">
                                     <p class="text-center"><strong>Valoración</strong></p>

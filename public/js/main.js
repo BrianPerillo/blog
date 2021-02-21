@@ -24,7 +24,8 @@ function prueba(id){
     //ENVIAR FILTRO PREEXISTENTE SI ES QUE LO HAY:
 
         var name = null; //name null sirve para + abajo consultarlo y poder saber si existe un filtro previo. De mantenerse = a null es porque no existe.
-
+        var nameFiltro1 = null;
+        var nameFiltro2 = null;
             //Tomo la URL y la paso a Sting para poder editarla.
                 var url = window.location.toString();
 
@@ -35,18 +36,18 @@ function prueba(id){
                 //También funciona hacer:
                     //var matchesCount = url.match(/=/g).length;
 
-            //Si aparece 1 es porque hay un filtro preexistente entonces lo tomo:
+            //SI APARECE 1 es porque hay un filtro preexistente entonces lo tomo:
                 if(matchesCount==1){
                     //Tomo de la URL lo que esté después del "?"
-                        var posicion1 = url.indexOf("?");
-                        var filtro = url.slice(posicion1+1); //+1 Para que no incluya al ?. Daría como resultado el filtro por ej: categoria=9
+                        var posicionInterrog = url.indexOf("?");
+                        var filtro = url.slice(posicionInterrog+1); //+1 Para que no incluya al ?. Daría como resultado el filtro por ej: categoria=9
                     
                     //Guardo el name y el value correspondiente al filtro separando el contenido a ambos lados del "="
                         var posicionIgual = filtro.indexOf("=");
                         var name = filtro.slice(0, posicionIgual); //Cargo el name, del filtro previo
                         var value = (filtro.slice(posicionIgual+1).toLowerCase()); //Cargo el value, del filtro previo EN MINÚSCULAS para que coincida
                         //con el value que consultan los ifs de abajo.
-                        
+
                         //alert(" name: " + name + ", value: " + value);
 
                     //Guardo el name y el value en el index hidden para que llegue al PostController:
@@ -54,7 +55,36 @@ function prueba(id){
                         $('#filtro_preexistente').attr('name', name);
                 }
 
-    //ENVIAR FILTRO NUEVO QUE SE SUMARÁ AL PREEXISTENTE SI ES QUE LO HAY
+                //SI APARECEN 2:
+                if(matchesCount==2){
+                    var posicionInterrog = url.indexOf("?");
+                    var filtro = url.slice(posicionInterrog+1);
+
+                    //Tomo los 2 filtros
+                    var posicionY = filtro.indexOf("&");
+                    var filtro1 = filtro.slice(0, posicionY); //Acá ya tengo uno Ej: fecha=ASC
+                    var filtro2 = filtro.slice(posicionY+1); //Acpa guardo el otro Ej: tag=Uno
+                    //alert("filtro1: " + filtro1 + " filtro2: " + filtro2);
+
+                    //Tomo el name y el value de cada filtro separando el contenido a ambos lados del "="
+                    var posicionIgual1 = filtro1.indexOf("=");
+                    var posicionIgual2 = filtro2.indexOf("=");
+
+                    var nameFiltro1 = filtro1.slice(0, posicionIgual1); 
+                    var valueFiltro1 = (filtro1.slice(posicionIgual1+1, posicionY).toLowerCase());
+
+                    var nameFiltro2 = filtro2.slice(0, posicionIgual2); 
+                    var valueFiltro2 = (filtro2.slice(posicionIgual2+1).toLowerCase());
+                    //alert(" nameFiltro1: " + nameFiltro1 + ", valueFiltro1: " + valueFiltro1 + ", nameFiltro2: " + nameFiltro2 + ", valueFiltro2: " + valueFiltro2);
+
+                    $('#filtro_preexistente').val(valueFiltro1);
+                    $('#filtro_preexistente').attr('name', nameFiltro1);
+
+                    $('#filtro_preexistente2').val(valueFiltro2);
+                    $('#filtro_preexistente2').attr('name', nameFiltro2);
+                    
+
+                }
 
     //!!!!!IMPORTANTE: EL FILTRO SE DEBERÁ SUMÁS SOLO SI NO HAY YA UN FILTRO DE LA MISMA CATEGRÍA (CON EL MISMO NAME), ENCASO DE QUE LO HAYA, NO SE DEBE SUMAR,
     //SINO REEMPLAZARLO. ES DECIR NO QUIERO QUE QUEDE X EJ  ?fecha=DESC&&fecha=ASC o  ?categoria=1&&categoria=3 sino que en estos casos se reemplaze la 
@@ -71,6 +101,15 @@ function prueba(id){
                         $('#filtro_preexistente').val(""); //si quiero que se sumen en lugar de reemplazarse (fecha+fecha NO fecha+categoría SI)
                         $('#filtro_preexistente').attr('name', "");
                     }
+                    //Para los casos en los q haya 2 filtros elimina el que corresponde nameFiltro1 o nameFiltro2:
+                    if(nameFiltro1=="fecha"){ 
+                        $('#filtro_preexistente').val("");                
+                        $('#filtro_preexistente').attr('name', "");           
+                    }
+                    else if(nameFiltro2 == "fecha"){
+                        $('#filtro_preexistente2').val("");                     
+                        $('#filtro_preexistente2').attr('name', "");           
+                    }
                 }
         }
 
@@ -83,6 +122,14 @@ function prueba(id){
                 if(name=="fecha"){
                     $('#filtro_preexistente').val("");
                     $('#filtro_preexistente').attr('name', "");
+                }
+                if(nameFiltro1=="fecha"){ 
+                    $('#filtro_preexistente').val("");              
+                    $('#filtro_preexistente').attr('name', "");           
+                }
+                else if(nameFiltro2 == "fecha"){
+                    $('#filtro_preexistente2').val("");                     
+                    $('#filtro_preexistente2').attr('name', "");           
                 }
             }
         }
@@ -99,6 +146,14 @@ function prueba(id){
                     $('#filtro_preexistente').val("");
                     $('#filtro_preexistente').attr('name', "");
                 }
+                if(nameFiltro1=="categoria"){ 
+                    $('#filtro_preexistente').val("");              
+                    $('#filtro_preexistente').attr('name', "");           
+                }
+                else if(nameFiltro2 == "categoria"){
+                    $('#filtro_preexistente2').val("");                     
+                    $('#filtro_preexistente2').attr('name', "");           
+                }
             }
         }
         else if(id=="button_actualidad"){
@@ -112,6 +167,14 @@ function prueba(id){
                 ){
                     $('#filtro_preexistente').val("");
                     $('#filtro_preexistente').attr('name', "");
+                }
+                if(nameFiltro1=="categoria"){ 
+                    $('#filtro_preexistente').val("");              
+                    $('#filtro_preexistente').attr('name', "");           
+                }
+                else if(nameFiltro2 == "categoria"){
+                    $('#filtro_preexistente2').val("");                     
+                    $('#filtro_preexistente2').attr('name', "");           
                 }
             }
         }
@@ -127,6 +190,14 @@ function prueba(id){
                     $('#filtro_preexistente').val("");
                     $('#filtro_preexistente').attr('name', "");
                 }
+                if(nameFiltro1=="categoria"){ 
+                    $('#filtro_preexistente').val("");              
+                    $('#filtro_preexistente').attr('name', "");           
+                }
+                else if(nameFiltro2 == "categoria"){
+                    $('#filtro_preexistente2').val("");                     
+                    $('#filtro_preexistente2').attr('name', "");           
+                }
             }
         }
         else if(id=="button_ocio"){
@@ -140,6 +211,14 @@ function prueba(id){
                 ){
                     $('#filtro_preexistente').val("");
                     $('#filtro_preexistente').attr('name', "");
+                }
+                if(nameFiltro1=="categoria"){ 
+                    $('#filtro_preexistente').val("");              
+                    $('#filtro_preexistente').attr('name', "");           
+                }
+                else if(nameFiltro2 == "categoria"){
+                    $('#filtro_preexistente2').val("");                     
+                    $('#filtro_preexistente2').attr('name', "");           
                 }
             }
         }
@@ -155,6 +234,14 @@ function prueba(id){
                     $('#filtro_preexistente').val("");
                     $('#filtro_preexistente').attr('name', "");
                 }
+                if(nameFiltro1=="categoria"){ 
+                    $('#filtro_preexistente').val("");              
+                    $('#filtro_preexistente').attr('name', "");           
+                }
+                else if(nameFiltro2 == "categoria"){
+                    $('#filtro_preexistente2').val("");                     
+                    $('#filtro_preexistente2').attr('name', "");           
+                }
             }
         }
         else if(id=="button_musica"){
@@ -168,8 +255,16 @@ function prueba(id){
                 ){
                         $('#filtro_preexistente').val("");
                         $('#filtro_preexistente').attr('name', "");
-                    }
                 }
+                if(nameFiltro1=="categoria"){ 
+                    $('#filtro_preexistente').val("");              
+                    $('#filtro_preexistente').attr('name', "");           
+                }
+                else if(nameFiltro2 == "categoria"){
+                    $('#filtro_preexistente2').val("");                     
+                    $('#filtro_preexistente2').attr('name', "");           
+                }
+            }
         }
         else if(id=="button_fotografia"){
             if(name==null || name!="categoria" || value!="fotografia"){
@@ -182,7 +277,15 @@ function prueba(id){
                 ){
                         $('#filtro_preexistente').val("");
                         $('#filtro_preexistente').attr('name', "");
-                    }
+                }
+                if(nameFiltro1=="categoria"){ 
+                    $('#filtro_preexistente').val("");              
+                    $('#filtro_preexistente').attr('name', "");           
+                }
+                else if(nameFiltro2 == "categoria"){
+                    $('#filtro_preexistente2').val("");                     
+                    $('#filtro_preexistente2').attr('name', "");           
+                }
             }
         }
         else if(id=="button_politica"){
@@ -196,7 +299,16 @@ function prueba(id){
                 ){
                         $('#filtro_preexistente').val("");
                         $('#filtro_preexistente').attr('name', "");
-                    }
+                }
+                if(nameFiltro1=="categoria"){ 
+                    $('#filtro_preexistente').val("");              
+                    $('#filtro_preexistente').attr('name', "");           
+                }
+                else if(nameFiltro2 == "categoria"){
+                    $('#filtro_preexistente2').val("");                     
+                    $('#filtro_preexistente2').attr('name', "");           
+                }
+                    
             }
         }
         else if(id=="button_educativo"){
@@ -210,7 +322,15 @@ function prueba(id){
                 ){
                         $('#filtro_preexistente').val("");
                         $('#filtro_preexistente').attr('name', "");
-                    }
+                }
+                if(nameFiltro1=="categoria"){ 
+                    $('#filtro_preexistente').val("");              
+                    $('#filtro_preexistente').attr('name', "");           
+                }
+                else if(nameFiltro2 == "categoria"){
+                    $('#filtro_preexistente2').val("");                     
+                    $('#filtro_preexistente2').attr('name', "");           
+                }
             }
         }
         
