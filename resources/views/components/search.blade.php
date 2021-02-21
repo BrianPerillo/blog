@@ -2,8 +2,8 @@
 <div class="col-md-12">
 
     <div class="row col-md-12 m-0 mb-3 d-flex justify-content-center">
-            <form action="{{route('dashboard.filtros')}}" class="col-md-3 mb-3" action="" method="post">
-                @csrf
+            <form action="{{route('dashboard.filtros')}}" class="col-md-3 mb-3" action="" method="get">
+                
                 <input class="col-md-12" type="text" style="border-radius:20px" name="search" id="" placeholder="Buscar por Título, Autor, Categoría o Tag" value="">
             </form>
     </div>
@@ -32,8 +32,8 @@
                         </div>
                         
                         <div class="row col-md-12 m-0 mb-5 d-flex justify-content-center">
-                            <form class="col-md-12 d-flex justify-content-center" action="{{route('dashboard.filtros')}}" method="post">
-                                @csrf
+                            <form class="col-md-12 d-flex justify-content-center" action="{{route('dashboard.filtros')}}" method="get">
+                                
                                 <div class="col-md-4 float-left">
                                     <p class="text-center"><strong>Fecha</strong></p>
                                     <!--<label class="btn p-0 m-0 m-auto" style="display: block" for="masrecientes">MásRecientes
@@ -105,6 +105,9 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Input que enciará el filtro que ya exista en la url --> 
+                                <input hidden id="filtro_preexistente" type="text" name="" value="">
                     
                                 <div class="col-md-4 float-left">
                                     <p class="text-center"><strong>Valoración</strong></p>

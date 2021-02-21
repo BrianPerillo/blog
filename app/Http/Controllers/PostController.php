@@ -20,58 +20,9 @@ class PostController extends Controller
     }
 
     public function posts_filtrados(Request $request){
-
-        // Consultas para el search
-        if(isset($request->search)){
-
-            // Por Autor
-            $users = User::where("name","like","%$request->search%")->get()->all();
-
-            $posts_array=[];
-
-            foreach($users as $user){
-                array_push($posts_array, $user->posts()->get()->all());
-            }
-
-            if(sizeof($posts_array)>0){
-                return view('dashboard', compact('posts_array'));
-            }
-
-            // Por titulo (name)
-            $posts = Post::where("name","like","%$request->search%")->get()->all();
-
-            if(sizeof($posts)>0){
-                return view('dashboard', compact('posts'));
-            }
-
-            // Por Categoría
-            $categoria = Category::where("name","=","$request->search")->get()->all(); //Si bien tiene all() siempre va a traer una sola categoría (where con "=")
-                                                                                       //siempre va a traer un solo resultado, pero igual uso all() en lugar de first()
-            if(sizeof($categoria)>0){                                                  //para que el dato lo guarde dentro de un array, y esto lo hago para poder
-                $posts = $categoria[0]->posts()->get()->all();                         //user el sizeof luego ya que solo funcionar con arrays o ciertos objetos.
-                if(sizeof($posts)>0){                                                  //el first devuelve un resultado al que no se le puede consultar sizeof.
-                    return view('dashboard', compact('posts'));
-                }
-            }
-
-            // Por tags 
-            $posts = Post::where("tags","like","%$request->search%")->get()->all();
-
-            if(sizeof($posts)>0){
-                return view('dashboard', compact('posts'));
-            }
-
-
-
-            //En caso de no entcontrar resultados:
-            return view('dashboard');
-            
-
-        }
-
-        else{
+        
+        // Establezco valores por defecto:
             $request->simbolo = "=";
-            // En caso que no llegue $request->fecha porque clickearon otro filtro entonces le doy un valor por defecto
             if(!isset($request->fecha)){
                 $request->fecha = "DESC";
             }
@@ -82,11 +33,66 @@ class PostController extends Controller
             if(!isset($request->tag)){
                 $request->tag = "%%";
             }
+
+        // Consultas para el search
+        if(isset($request->search)){
+
+            // Por Autor
+                $users = User::where("name","like","%$request->search%")->get()->all();
+
+                $posts_array=[];
+
+                foreach($users as $user){
+                    array_push($posts_array, $user->posts()->get()->all());
+                }
+
+                //Compruebo si trajo resultados:
+                if(sizeof($posts_array)>0){
+                    //Se lo paso a la vista:
+                    return view('dashboard', compact('posts_array'));
+                }
+
+            // Por titulo (name)
+                $posts = Post::where("name","like","%$request->search%")->get()->all();
+
+                if(sizeof($posts)>0){
+                    return view('dashboard', compact('posts'));
+                }
+
+            // Por Categoría
+                $categoria = Category::where("name","=","$request->search")->get()->all(); 
+                //Si bien tiene all() siempre va a traer una sola categoría (where con "=")                                                                        
+                //siempre va a traer un solo resultado, pero igual uso all() en lugar de first()                  
+                //para que el dato lo guarde dentro de un array, y esto lo hago para poder                  
+                //user el sizeof luego ya que solo funcionar con arrays o ciertos objetos.      
+                //el first devuelve un resultado al que no se le puede consultar sizeof.
+
+                if(sizeof($categoria)>0){                                                  
+                    $posts = $categoria[0]->posts()->orderBy('id', "$request->fecha")->get()->all();                         
+                    if(sizeof($posts)>0){                                                 
+                        return view('dashboard', compact('posts'));
+                    }
+                }
+
+            // Por tags 
+                $posts = Post::where("tags","like","%$request->search%")->where("category_id","$request->simbolo","$request->categoria")->orderBy('id', "$request->fecha")->get()->all();
+
+                if(sizeof($posts)>0){
+                    return view('dashboard', compact('posts'));
+                }
+
+                //En caso de no entcontrar resultados:
+                return view('dashboard');
+            
+        }
+        
+        else{
             
             // Consulta para filtros del menú desplegable
-            $posts = Post::where("category_id","$request->simbolo","$request->categoria")->where("tags","like","$request->tag")->orderBy('id', "$request->fecha")->get()->all(); //Tiene que ser la mas compleja posible para reemplazar los datos
-            
-            return view('dashboard', compact('posts'));
+                $posts = Post::where("category_id","$request->simbolo","$request->categoria")->where("tags","like","$request->tag")->orderBy('id', "$request->fecha")->get()->all(); //Tiene que ser la mas compleja posible para reemplazar los datos
+                
+                return view('dashboard', compact('posts'));
+
         }
         
     }

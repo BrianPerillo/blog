@@ -42,7 +42,7 @@
                         @endforeach
                     @endforeach
                 
-
+                
                 @elseif (!isset($posts) && !isset($posts_array))
 
                     <div class="d-flex justify-content-center">
