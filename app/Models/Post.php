@@ -29,9 +29,9 @@ class Post extends Model
         return $this->morphMany(Comment::class, 'commentable')->orderBy('id', 'DESC');
     }
 
-    //Relación 1:N - 1 post puede tener N likes.
-    public function likes(){
-        return $this->hasMany(Like::class);
+    //Relación N:N - 1 post puede tener muchos usuarios que le dieron like.
+    public function users_likes(){
+        return $this->belongsToMany(User::class, 'likes');
     }
     
 }

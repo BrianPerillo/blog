@@ -156,7 +156,13 @@ class PostController extends Controller
         $post = Post::find($id);
 
         //Si quisiera mostrar acá quienes le dieron like:antes del return hago: 
+        //COMENTO QUERY CON JOIN MÁS FACIL CREE VÍNCULO BELONGS TO MANY.
+        /*
         $likers = User::select("users.*")->join("likes","users.id","=","likes.user_id")->join("posts","posts.id","=","likes.post_id")->where("posts.id","=","$id")->get()->all();
+        */
+
+        $likers = $post->users_likes;
+
         if(sizeof($likers)>0){
             return view('posts.show', with(compact('post','likers')));
         }

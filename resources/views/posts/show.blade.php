@@ -13,7 +13,7 @@
             {!! $post->body !!}</br>
             {{"Categoría: ".$post->category->name}}</br>
             {{"Tags: ".$post->tags}}</br>
-            {{"Likers: "}}</br>
+            {{"Likers: "}}
             @if(isset($likers))
                 @foreach ($likers as $liker)
                     {{$liker->name}}
