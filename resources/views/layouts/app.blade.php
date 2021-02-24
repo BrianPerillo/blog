@@ -18,8 +18,8 @@
         <script src="{{ asset('js/jquery-3.5.1.slim.min.js') }}"></script>
         <!--Editor de Textos-->
         <script src="{{asset('vendor/ckeditor/ckeditor.js')}}"></script>
-        <!--Tags-->                      
-
+        <!--Likes-->                      
+        <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

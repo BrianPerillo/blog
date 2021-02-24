@@ -4,11 +4,9 @@ function responder(idnumber){
 }
 
 
-//TAGS:
+//LIKES
 
-//ENDTAGS  
 
-//
 
 //En caso que usen el search paso el dato a minúsculas con toLowerCase. Esto sirve para el ifs que están más abajo donde se consulta el value
 function lowerCase(id){ //  ... value=="noticias" || value=="actualidad"|| value=="tecnologia" etc...
@@ -36,7 +34,7 @@ function prueba(id){
                 //También funciona hacer:
                     //var matchesCount = url.match(/=/g).length;
 
-            //SI APARECE 1 es porque hay un filtro preexistente entonces lo tomo:
+            //SI APARECE 1 es porque hay un filtro preexistente entonces lo tomo y se lo guardo al input hidden para que llegue al Controller:
                 if(matchesCount==1){
                     //Tomo de la URL lo que esté después del "?"
                         var posicionInterrog = url.indexOf("?");
@@ -61,27 +59,28 @@ function prueba(id){
                     var filtro = url.slice(posicionInterrog+1);
 
                     //Tomo los 2 filtros
-                    var posicionY = filtro.indexOf("&");
-                    var filtro1 = filtro.slice(0, posicionY); //Acá ya tengo uno Ej: fecha=ASC
-                    var filtro2 = filtro.slice(posicionY+1); //Acpa guardo el otro Ej: tag=Uno
-                    //alert("filtro1: " + filtro1 + " filtro2: " + filtro2);
+                        var posicionY = filtro.indexOf("&");
+                        var filtro1 = filtro.slice(0, posicionY); //Acá ya tengo uno Ej: fecha=ASC
+                        var filtro2 = filtro.slice(posicionY+1); //Acpa guardo el otro Ej: tag=Uno
+                        //alert("filtro1: " + filtro1 + " filtro2: " + filtro2);
 
                     //Tomo el name y el value de cada filtro separando el contenido a ambos lados del "="
-                    var posicionIgual1 = filtro1.indexOf("=");
-                    var posicionIgual2 = filtro2.indexOf("=");
+                        var posicionIgual1 = filtro1.indexOf("=");
+                        var posicionIgual2 = filtro2.indexOf("=");
 
-                    var nameFiltro1 = filtro1.slice(0, posicionIgual1); 
-                    var valueFiltro1 = (filtro1.slice(posicionIgual1+1, posicionY).toLowerCase());
+                        var nameFiltro1 = filtro1.slice(0, posicionIgual1); 
+                        var valueFiltro1 = (filtro1.slice(posicionIgual1+1, posicionY).toLowerCase());
 
-                    var nameFiltro2 = filtro2.slice(0, posicionIgual2); 
-                    var valueFiltro2 = (filtro2.slice(posicionIgual2+1).toLowerCase());
-                    //alert(" nameFiltro1: " + nameFiltro1 + ", valueFiltro1: " + valueFiltro1 + ", nameFiltro2: " + nameFiltro2 + ", valueFiltro2: " + valueFiltro2);
+                        var nameFiltro2 = filtro2.slice(0, posicionIgual2); 
+                        var valueFiltro2 = (filtro2.slice(posicionIgual2+1).toLowerCase());
+                        //alert(" nameFiltro1: " + nameFiltro1 + ", valueFiltro1: " + valueFiltro1 + ", nameFiltro2: " + nameFiltro2 + ", valueFiltro2: " + valueFiltro2);
+                    
+                    //Cargo los datos a los inputs hidden para que lleguen al Controller
+                        $('#filtro_preexistente').val(valueFiltro1);
+                        $('#filtro_preexistente').attr('name', nameFiltro1);
 
-                    $('#filtro_preexistente').val(valueFiltro1);
-                    $('#filtro_preexistente').attr('name', nameFiltro1);
-
-                    $('#filtro_preexistente2').val(valueFiltro2);
-                    $('#filtro_preexistente2').attr('name', nameFiltro2);
+                        $('#filtro_preexistente2').val(valueFiltro2);
+                        $('#filtro_preexistente2').attr('name', nameFiltro2);
                     
 
                 }
@@ -135,7 +134,7 @@ function prueba(id){
         }
 
         else if(id=="button_noticias"){
-            if(name==null || name!="categoria" || value!="noticias"){
+            if(matchesCount==1 && name==null || name!="categoria" || value!="noticias"){
                 $('#noticias').val("1");
                 $('#noticias').attr('name', 'categoria');
                 if(name=="categoria" 
@@ -146,18 +145,27 @@ function prueba(id){
                     $('#filtro_preexistente').val("");
                     $('#filtro_preexistente').attr('name', "");
                 }
-                if(nameFiltro1=="categoria"){ 
+            }
+            if(matchesCount==2 && nameFiltro1==null || nameFiltro1!="categoria" || valueFiltro1!="noticias"){
+                $('#noticias').val("1");
+                $('#noticias').attr('name', 'categoria');
+                if(nameFiltro1=="categoria" || valueFiltro1=="noticias" || valueFiltro1=="actualidad"|| valueFiltro1=="tecnologia"
+                    || valueFiltro1=="ocio"|| valueFiltro1=="deportes"|| valueFiltro1=="musica"
+                    || valueFiltro1=="fotografia"|| valueFiltro1=="politica" || valueFiltro1=="educativo"){ 
                     $('#filtro_preexistente').val("");              
                     $('#filtro_preexistente').attr('name', "");           
                 }
-                else if(nameFiltro2 == "categoria"){
+                else if(nameFiltro2=="categoria" || valueFiltro2=="noticias" || valueFiltro2=="actualidad"|| valueFiltro2=="tecnologia"
+                || valueFiltro2=="ocio"|| valueFiltro2=="deportes"|| valueFiltro2=="musica"
+                || valueFiltro2=="fotografia"|| valueFiltro2=="politica" || valueFiltro2=="educativo"){ 
                     $('#filtro_preexistente2').val("");                     
                     $('#filtro_preexistente2').attr('name', "");           
                 }
-            }
+                
+           }
         }
         else if(id=="button_actualidad"){
-            if(name==null || name!="categoria" || value!="actualidad"){
+            if(matchesCount==1 && name==null || name!="categoria" || value!="actualidad"){
                 $('#actualidad').val("2");
                 $('#actualidad').attr('name', 'categoria');
                 if(name=="categoria" 
@@ -168,40 +176,56 @@ function prueba(id){
                     $('#filtro_preexistente').val("");
                     $('#filtro_preexistente').attr('name', "");
                 }
-                if(nameFiltro1=="categoria"){ 
+            }
+            if(matchesCount==2 && nameFiltro1==null || nameFiltro1!="categoria" || valueFiltro1!="actualidad"){
+                $('#actualidad').val("2");
+                $('#actualidad').attr('name', 'categoria');
+                if(nameFiltro1=="categoria" || valueFiltro1=="noticias" || valueFiltro1=="actualidad"|| valueFiltro1=="tecnologia"
+                    || valueFiltro1=="ocio"|| valueFiltro1=="deportes"|| valueFiltro1=="musica"
+                    || valueFiltro1=="fotografia"|| valueFiltro1=="politica" || valueFiltro1=="educativo"){ 
                     $('#filtro_preexistente').val("");              
                     $('#filtro_preexistente').attr('name', "");           
                 }
-                else if(nameFiltro2 == "categoria"){
+                else if(nameFiltro2=="categoria" || valueFiltro2=="noticias" || valueFiltro2=="actualidad"|| valueFiltro2=="tecnologia"
+                    || valueFiltro2=="ocio"|| valueFiltro2=="deportes"|| valueFiltro2=="musica"
+                    || valueFiltro2=="fotografia"|| valueFiltro2=="politica" || valueFiltro2=="educativo"){ 
                     $('#filtro_preexistente2').val("");                     
                     $('#filtro_preexistente2').attr('name', "");           
                 }
             }
         }
         else if(id=="button_tecnologia"){
-            if(name==null || name!="categoria" || value!="tecnologia"){
-                $('#tecnologia').val("3");
-                $('#tecnologia').attr('name', 'categoria');
-                if(name=="categoria" 
-                    || value=="noticias" || value=="actualidad"|| value=="tecnologia"
-                    || value=="ocio"|| value=="deportes"|| value=="musica"
-                    || value=="fotografia"|| value=="politica" || value=="educativo" 
-                ){
-                    $('#filtro_preexistente').val("");
-                    $('#filtro_preexistente').attr('name', "");
+            if(matchesCount==1 && name==null || name!="categoria" || value!="tecnologia"){
+                    $('#tecnologia').val("3");
+                    $('#tecnologia').attr('name', 'categoria');
+                    if(name=="categoria" 
+                        || value=="noticias" || value=="actualidad"|| value=="tecnologia"
+                        || value=="ocio"|| value=="deportes"|| value=="musica"
+                        || value=="fotografia"|| value=="politica" || value=="educativo" 
+                    ){
+                        $('#filtro_preexistente').val("");
+                        $('#filtro_preexistente').attr('name', "");
+                    }
                 }
-                if(nameFiltro1=="categoria"){ 
-                    $('#filtro_preexistente').val("");              
-                    $('#filtro_preexistente').attr('name', "");           
+                if(matchesCount==2 && nameFiltro1==null || nameFiltro1!="categoria" || valueFiltro1!="tecnologia"){
+                    $('#tecnologia').val("3");
+                    $('#tecnologia').attr('name', 'categoria');
+                    if(nameFiltro1=="categoria" || valueFiltro1=="noticias" || valueFiltro1=="actualidad"|| valueFiltro1=="tecnologia"
+                        || valueFiltro1=="ocio"|| valueFiltro1=="deportes"|| valueFiltro1=="musica"
+                        || valueFiltro1=="fotografia"|| valueFiltro1=="politica" || valueFiltro1=="educativo"){ 
+                        $('#filtro_preexistente').val("");              
+                        $('#filtro_preexistente').attr('name', "");           
+                    }
+                    else if(nameFiltro2=="categoria" || valueFiltro2=="noticias" || valueFiltro2=="actualidad"|| valueFiltro2=="tecnologia"
+                        || valueFiltro2=="ocio"|| valueFiltro2=="deportes"|| valueFiltro2=="musica"
+                        || valueFiltro2=="fotografia"|| valueFiltro2=="politica" || valueFiltro2=="educativo"){ 
+                        $('#filtro_preexistente2').val("");                     
+                        $('#filtro_preexistente2').attr('name', "");           
+                    }
                 }
-                else if(nameFiltro2 == "categoria"){
-                    $('#filtro_preexistente2').val("");                     
-                    $('#filtro_preexistente2').attr('name', "");           
-                }
-            }
         }
         else if(id=="button_ocio"){
-            if(name==null || name!="categoria" || value!="ocio"){
+            if(matchesCount==1 && name==null || name!="categoria" || value!="ocio"){
                 $('#ocio').val("4");
                 $('#ocio').attr('name', 'categoria');
                 if(name=="categoria" 
@@ -212,18 +236,27 @@ function prueba(id){
                     $('#filtro_preexistente').val("");
                     $('#filtro_preexistente').attr('name', "");
                 }
-                if(nameFiltro1=="categoria"){ 
+            }
+            if(matchesCount==2 && nameFiltro1==null || nameFiltro1!="categoria" || valueFiltro1!="ocio"){
+                $('#ocio').val("4");
+                $('#ocio').attr('name', 'categoria');
+                if(nameFiltro1=="categoria" || valueFiltro1=="noticias" || valueFiltro1=="actualidad"|| valueFiltro1=="tecnologia"
+                    || valueFiltro1=="ocio"|| valueFiltro1=="deportes"|| valueFiltro1=="musica"
+                    || valueFiltro1=="fotografia"|| valueFiltro1=="politica" || valueFiltro1=="educativo"){ 
                     $('#filtro_preexistente').val("");              
                     $('#filtro_preexistente').attr('name', "");           
                 }
-                else if(nameFiltro2 == "categoria"){
+                else if(nameFiltro2=="categoria" || valueFiltro2=="noticias" || valueFiltro2=="actualidad"|| valueFiltro2=="tecnologia"
+                    || valueFiltro2=="ocio"|| valueFiltro2=="deportes"|| valueFiltro2=="musica"
+                    || valueFiltro2=="fotografia"|| valueFiltro2=="politica" || valueFiltro2=="educativo"){ 
                     $('#filtro_preexistente2').val("");                     
                     $('#filtro_preexistente2').attr('name', "");           
-                }
+                 }
             }
+            
         }
         else if(id=="button_deportes"){
-            if(name==null || name!="categoria" || value!="deportes"){
+            if(matchesCount==1 && name==null || name!="categoria" || value!="deportes"){
                 $('#deportes').val("5");
                 $('#deportes').attr('name', 'categoria');
                 if(name=="categoria" 
@@ -234,18 +267,27 @@ function prueba(id){
                     $('#filtro_preexistente').val("");
                     $('#filtro_preexistente').attr('name', "");
                 }
-                if(nameFiltro1=="categoria"){ 
+            }
+            if(matchesCount==2 && nameFiltro1==null || nameFiltro1!="categoria" || valueFiltro1!="deportes"){
+                $('#deportes').val("5");
+                $('#deportes').attr('name', 'categoria');
+                if(nameFiltro1=="categoria" || valueFiltro1=="noticias" || valueFiltro1=="actualidad"|| valueFiltro1=="tecnologia"
+                    || valueFiltro1=="ocio"|| valueFiltro1=="deportes"|| valueFiltro1=="musica"
+                    || valueFiltro1=="fotografia"|| valueFiltro1=="politica" || valueFiltro1=="educativo"){ 
                     $('#filtro_preexistente').val("");              
                     $('#filtro_preexistente').attr('name', "");           
                 }
-                else if(nameFiltro2 == "categoria"){
+                else if(nameFiltro2=="categoria" || valueFiltro2=="noticias" || valueFiltro2=="actualidad"|| valueFiltro2=="tecnologia"
+                    || valueFiltro2=="ocio"|| valueFiltro2=="deportes"|| valueFiltro2=="musica"
+                    || valueFiltro2=="fotografia"|| valueFiltro2=="politica" || valueFiltro2=="educativo"){ 
                     $('#filtro_preexistente2').val("");                     
                     $('#filtro_preexistente2').attr('name', "");           
                 }
             }
+            
         }
         else if(id=="button_musica"){
-            if(name==null || name!="categoria" || value!="musica"){
+            if(matchesCount==1 && name==null || name!="categoria" || value!="musica"){
                 $('#musica').val("6");
                 $('#musica').attr('name', 'categoria');
                 if(name=="categoria" 
@@ -256,18 +298,27 @@ function prueba(id){
                         $('#filtro_preexistente').val("");
                         $('#filtro_preexistente').attr('name', "");
                 }
-                if(nameFiltro1=="categoria"){ 
-                    $('#filtro_preexistente').val("");              
-                    $('#filtro_preexistente').attr('name', "");           
-                }
-                else if(nameFiltro2 == "categoria"){
-                    $('#filtro_preexistente2').val("");                     
-                    $('#filtro_preexistente2').attr('name', "");           
-                }
+            }
+                if(matchesCount==2 && nameFiltro1==null || nameFiltro1!="categoria" || valueFiltro1!="musica"){
+                    $('#musica').val("6");
+                    $('#musica').attr('name', 'categoria');
+                    if(nameFiltro1=="categoria" || valueFiltro1=="noticias" || valueFiltro1=="actualidad"|| valueFiltro1=="tecnologia"
+                        || valueFiltro1=="ocio"|| valueFiltro1=="deportes"|| valueFiltro1=="musica"
+                        || valueFiltro1=="fotografia"|| valueFiltro1=="politica" || valueFiltro1=="educativo"){ 
+                        $('#filtro_preexistente').val("");              
+                        $('#filtro_preexistente').attr('name', "");           
+                    }
+                    else if(nameFiltro2=="categoria" || valueFiltro2=="noticias" || valueFiltro2=="actualidad"|| valueFiltro2=="tecnologia"
+                        || valueFiltro2=="ocio"|| valueFiltro2=="deportes"|| valueFiltro2=="musica"
+                        || valueFiltro2=="fotografia"|| valueFiltro2=="politica" || valueFiltro2=="educativo"){ 
+                        $('#filtro_preexistente2').val("");                     
+                        $('#filtro_preexistente2').attr('name', "");           
+                    }
+                
             }
         }
         else if(id=="button_fotografia"){
-            if(name==null || name!="categoria" || value!="fotografia"){
+            if(matchesCount==1 && name==null || name!="categoria" || value!="fotografia"){
                 $('#fotografia').val("7");
                 $('#fotografia').attr('name', 'categoria');
                 if(name=="categoria" 
@@ -278,18 +329,27 @@ function prueba(id){
                         $('#filtro_preexistente').val("");
                         $('#filtro_preexistente').attr('name', "");
                 }
-                if(nameFiltro1=="categoria"){ 
-                    $('#filtro_preexistente').val("");              
-                    $('#filtro_preexistente').attr('name', "");           
-                }
-                else if(nameFiltro2 == "categoria"){
-                    $('#filtro_preexistente2').val("");                     
-                    $('#filtro_preexistente2').attr('name', "");           
-                }
+            }
+                if(matchesCount==2 && nameFiltro1==null || nameFiltro1!="categoria" || valueFiltro1!="fotografia"){
+                    $('#fotografia').val("7");
+                    $('#fotografia').attr('name', 'categoria');
+                    if(nameFiltro1=="categoria" || valueFiltro1=="noticias" || valueFiltro1=="actualidad"|| valueFiltro1=="tecnologia"
+                        || valueFiltro1=="ocio"|| valueFiltro1=="deportes"|| valueFiltro1=="musica"
+                        || valueFiltro1=="fotografia"|| valueFiltro1=="politica" || valueFiltro1=="educativo"){ 
+                        $('#filtro_preexistente').val("");              
+                        $('#filtro_preexistente').attr('name', "");           
+                    }
+                    else if(nameFiltro2=="categoria" || valueFiltro2=="noticias" || valueFiltro2=="actualidad"|| valueFiltro2=="tecnologia"
+                        || valueFiltro2=="ocio"|| valueFiltro2=="deportes"|| valueFiltro2=="musica"
+                        || valueFiltro2=="fotografia"|| valueFiltro2=="politica" || valueFiltro2=="educativo"){ 
+                        $('#filtro_preexistente2').val("");                     
+                        $('#filtro_preexistente2').attr('name', "");           
+                    }
+                
             }
         }
         else if(id=="button_politica"){
-            if(name==null || name!="categoria" || value!="politica"){
+            if(matchesCount==1 && name==null || name!="categoria" || value!="tecnologia"){
                 $('#politica').val("8");
                 $('#politica').attr('name', 'categoria');
                 if(name=="categoria" 
@@ -300,19 +360,28 @@ function prueba(id){
                         $('#filtro_preexistente').val("");
                         $('#filtro_preexistente').attr('name', "");
                 }
-                if(nameFiltro1=="categoria"){ 
-                    $('#filtro_preexistente').val("");              
-                    $('#filtro_preexistente').attr('name', "");           
-                }
-                else if(nameFiltro2 == "categoria"){
-                    $('#filtro_preexistente2').val("");                     
-                    $('#filtro_preexistente2').attr('name', "");           
-                }
+            }
+                if(matchesCount==2 && nameFiltro1==null || nameFiltro1!="categoria" || valueFiltro1!="politica"){
+                    $('#politica').val("8");
+                    $('#politica').attr('name', 'categoria');
+                    if(nameFiltro1=="categoria" || valueFiltro1=="noticias" || valueFiltro1=="actualidad"|| valueFiltro1=="tecnologia"
+                        || valueFiltro1=="ocio"|| valueFiltro1=="deportes"|| valueFiltro1=="musica"
+                        || valueFiltro1=="fotografia"|| valueFiltro1=="politica" || valueFiltro1=="educativo"){ 
+                        $('#filtro_preexistente').val("");              
+                        $('#filtro_preexistente').attr('name', "");           
+                    }
+                    else if(nameFiltro2=="categoria" || valueFiltro2=="noticias" || valueFiltro2=="actualidad"|| valueFiltro2=="tecnologia"
+                        || valueFiltro2=="ocio"|| valueFiltro2=="deportes"|| valueFiltro2=="musica"
+                        || valueFiltro2=="fotografia"|| valueFiltro2=="politica" || valueFiltro2=="educativo"){ 
+                        $('#filtro_preexistente2').val("");                     
+                        $('#filtro_preexistente2').attr('name', "");           
+                    }
+                
                     
             }
         }
         else if(id=="button_educativo"){
-            if(name==null || name!="categoria" || value!="educativo"){
+            if(matchesCount==1 && name==null || name!="categoria" || value!="educativo"){
                 $('#educativo').val("9");
                 $('#educativo').attr('name', 'categoria');
                 if(name=="categoria" 
@@ -323,14 +392,23 @@ function prueba(id){
                         $('#filtro_preexistente').val("");
                         $('#filtro_preexistente').attr('name', "");
                 }
-                if(nameFiltro1=="categoria"){ 
-                    $('#filtro_preexistente').val("");              
-                    $('#filtro_preexistente').attr('name', "");           
-                }
-                else if(nameFiltro2 == "categoria"){
-                    $('#filtro_preexistente2').val("");                     
-                    $('#filtro_preexistente2').attr('name', "");           
-                }
+            }
+                if(matchesCount==2 && nameFiltro1==null || nameFiltro1!="categoria" || valueFiltro1!="educativo"){
+                    $('#educativo').val("9");
+                    $('#educativo').attr('name', 'categoria');
+                    if(nameFiltro1=="categoria" || valueFiltro1=="noticias" || valueFiltro1=="actualidad"|| valueFiltro1=="tecnologia"
+                        || valueFiltro1=="ocio"|| valueFiltro1=="deportes"|| valueFiltro1=="musica"
+                        || valueFiltro1=="fotografia"|| valueFiltro1=="politica" || valueFiltro1=="educativo"){ 
+                        $('#filtro_preexistente').val("");              
+                        $('#filtro_preexistente').attr('name', "");           
+                    }
+                    else if(nameFiltro2=="categoria" || valueFiltro2=="noticias" || valueFiltro2=="actualidad"|| valueFiltro2=="tecnologia"
+                        || valueFiltro2=="ocio"|| valueFiltro2=="deportes"|| valueFiltro2=="musica"
+                        || valueFiltro2=="fotografia"|| valueFiltro2=="politica" || valueFiltro2=="educativo"){ 
+                        $('#filtro_preexistente2').val("");                     
+                        $('#filtro_preexistente2').attr('name', "");           
+                    }
+                
             }
         }
         

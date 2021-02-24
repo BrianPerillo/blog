@@ -1,3 +1,6 @@
+@props(['categoria' => '', 'fecha' => '', 'search' => ''])
+
+@if($search!='') @php $placeholder=$search @endphp @endif
 
 <div class="col-md-12">
 
@@ -5,9 +8,8 @@
             <form action="{{route('dashboard.filtros')}}" class="col-md-3 mb-3" action="" method="get">
                 
                 <input id="search" class="col-md-12" type="text" style="border-radius:20px" name="search" 
-                placeholder="Buscar por Título, Autor, Categoría o Tag" 
-                value=""
-                onchange="lowerCase()">
+                placeholder="{{$search}}" onchange="lowerCase()" value="" 
+                >
             </form>
     </div>
 
@@ -45,43 +47,42 @@
                                     <div class="mb-2 d-flex justify-content-center">
                                         <input hidden id="mas_recientes" name="" type="text" class="" style="display: block;background-color:white" 
                                         value="">
-                                        <button id="button_mas_recientes" type="submit" onclick="prueba('button_mas_recientes')">Más Recientes</button>
+                                        <button id="button_mas_recientes" type="submit" onclick="prueba('button_mas_recientes')"><p style="margin:0;padding:0" @if($fecha=="DESC" || $fecha=="desc") {{'class=font-weight-bold'}} @endif>Más Recientes</p></button>
                                     </div>
                                     <div class="mb-2 d-flex justify-content-center">
                                         <input hidden id="mas_antiguos" name="" type="text" class="" style="display: block;background-color:white" 
                                         value="">
-                                        <button id="button_mas_antiguos" type="submit" onclick="prueba('button_mas_antiguos')">Más Antiguos</button>
+                                        <button id="button_mas_antiguos" type="submit" onclick="prueba('button_mas_antiguos')"><p style="margin:0;padding:0" @if($fecha=="ASC" || $fecha=="asc") {{'class=font-weight-bold'}} @endif>Más Antiguos</p></button>
                                     </div>
                                 </div>
                     
-                                <div class="col-md-4 float-left">
+                                <div class="col-md-4 float-left"> 
                                     <p class="text-center"><strong>Categoría</strong></p>
-                                    
                                     <div class="col-md-8 float-left">
                                         <div class="mb-2">
                                             <input hidden id="noticias" name="" type="text" class="" style="display: block;background-color:white" 
                                             value="">
-                                            <button id="button_noticias" type="submit" onclick="prueba('button_noticias')">Noticias</button>
+                                            <button id="button_noticias" type="submit" onclick="prueba('button_noticias')"><p style="margin:0;padding:0" @if($categoria==1) {{'class=font-weight-bold'}} @endif>Noticias</p></button>
                                         </div>
                                         <div class="mb-2">
                                             <input hidden id="actualidad" name="" type="text" class="" style="display: block;background-color:white" 
                                             value="">
-                                            <button id="button_actualidad" type="submit" onclick="prueba('button_actualidad')">Actualidad</button>
+                                            <button id="button_actualidad" type="submit" onclick="prueba('button_actualidad')"><p style="margin:0;padding:0" @if($categoria==2) {{'class=font-weight-bold'}} @endif>Actualidad</button>
                                         </div>
                                         <div class="mb-2">
                                             <input hidden id="tecnologia" name="" type="text" class="" style="display: block;background-color:white" 
                                             value="">
-                                            <button id="button_tecnologia" type="submit" onclick="prueba('button_tecnologia')">Tecnologia</button>
+                                            <button id="button_tecnologia" type="submit" onclick="prueba('button_tecnologia')"><p style="margin:0;padding:0" @if($categoria==3) {{'class=font-weight-bold'}} @endif>Tecnologia</button>
                                         </div>
                                         <div class="mb-2">
                                             <input hidden id="ocio" name="" type="text" class="" style="display: block;background-color:white" 
                                             value="">
-                                            <button id="button_ocio" type="submit" onclick="prueba('button_ocio')">Ocio</button>
+                                            <button id="button_ocio" type="submit" onclick="prueba('button_ocio')"><p style="margin:0;padding:0" @if($categoria==4) {{'class=font-weight-bold'}} @endif>Ocio</button>
                                         </div>
                                         <div class="mb-2">
                                             <input hidden id="deportes" name="" type="text" class="" style="display: block;background-color:white" 
                                             value="">
-                                            <button id="button_deportes" type="submit" onclick="prueba('button_deportes')">Deportes</button>
+                                            <button id="button_deportes" type="submit" onclick="prueba('button_deportes')"><p style="margin:0;padding:0" @if($categoria==5) {{'class=font-weight-bold'}} @endif>Deportes</button>
                                         </div>
                                     </div>
                     
@@ -89,22 +90,22 @@
                                         <div class="mb-2">
                                             <input hidden id="musica" name="" type="text" class="" style="display: block;background-color:white" 
                                             value="">
-                                            <button id="button_musica" type="submit" onclick="prueba('button_musica')">Musica</button>
+                                            <button id="button_musica" type="submit" onclick="prueba('button_musica')"><p style="margin:0;padding:0" @if($categoria==6) {{'class=font-weight-bold'}} @endif>Musica</button>
                                         </div>
                                         <div class="mb-2">
                                             <input hidden id="fotografia" name="" type="text" class="" style="display: block;background-color:white" 
                                             value="">
-                                            <button id="button_fotografia" type="submit" onclick="prueba('button_fotografia')">Fotogarfia</button>
+                                            <button id="button_fotografia" type="submit" onclick="prueba('button_fotografia')"><p style="margin:0;padding:0" @if($categoria==7) {{'class=font-weight-bold'}} @endif>Fotogarfia</button>
                                         </div>
                                         <div class="mb-2">
                                             <input hidden id="politica" name="" type="text" class="" style="display: block;background-color:white" 
                                             value="">
-                                            <button id="button_politica" type="submit" onclick="prueba('button_politica')">Politica</button>
+                                            <button id="button_politica" type="submit" onclick="prueba('button_politica')"><p style="margin:0;padding:0" @if($categoria==8) {{'class=font-weight-bold'}} @endif>Politica</button>
                                         </div>
                                         <div class="mb-2">
                                             <input hidden id="educativo" name="" type="text" class="" style="display: block;background-color:white" 
                                             value="">
-                                            <button id="button_educativo" type="submit" onclick="prueba('button_educativo')">Educativo</button>
+                                            <button id="button_educativo" type="submit" onclick="prueba('button_educativo')"><p style="margin:0;padding:0" @if($categoria==9) {{'class=font-weight-bold'}} @endif>Educativo</button>
                                         </div>
                                     </div>
                                 </div>

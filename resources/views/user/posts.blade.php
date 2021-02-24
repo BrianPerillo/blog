@@ -7,10 +7,10 @@
 
     <div class="py-12">
         <div class="container max-w-9xl mx-auto sm:px-6 lg:px-8">
-
-            {{auth()->user()->name}}</br>
             
-            Mis Posts: </br>
+            {{$user->name}}</br>
+            
+            Posts: </br>
 
             <div class="row m-2">
                 @foreach($posts as $post)
@@ -21,22 +21,25 @@
                             <div class="text-center"><p>{{$post->name}}</p></div>
                         </div>
                     </a>
-                   
-                        <div>
-                            <div class="float-left mr-2">
-                                <form action="{{route('posts.edit', $post)}}" method="get">
-                                    <button class="btn btn-primary" type="submit">Editar</button> 
-                                </form>
-                            </div>
-                            <div class="float-left mr-2">
-                                <form action="{{route('posts.delete', $post)}}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="btn btn-primary" type="submit">Eliminar</button> 
 
-                                </form>
+                        @if(auth()->user() && auth()->user()->id == $user->id)
+                            <div>
+                                <div class="float-left mr-2">
+                                    <form action="{{route('posts.edit', $post)}}" method="get">
+                                        <button class="btn btn-primary" type="submit">Editar</button> 
+                                    </form>
+                                </div>
+                                <div class="float-left mr-2">
+                                    <form action="{{route('posts.delete', $post)}}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button class="btn btn-primary" type="submit">Eliminar</button> 
+
+                                    </form>
+                                </div>
                             </div>
-                        </div>
+                        @endif
+
                 </div>
                     
                 @endforeach

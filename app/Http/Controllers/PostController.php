@@ -10,18 +10,21 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Image;
 use App\Models\Answer;
+use App\Models\Like;
 
 class PostController extends Controller
 {
 
     public function posts(){
-        $posts = Post::orderBy('id', 'DESC')->get()->all();
-        return view('dashboard', compact('posts'));
+        $posts = Post::orderBy('id', 'DESC')->offset(0)->limit(12)->get();
+        $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
+        return view('dashboard', with(compact('posts', 'masonry_results')));
     }
 
     public function posts_filtrados(Request $request){
-
+        
         // Establezco valores por defecto:
+            $masonry_results=1;
             $request->simbolo = "=";
             if(!isset($request->fecha)){
                 $request->fecha = "DESC";
@@ -33,30 +36,41 @@ class PostController extends Controller
             if(!isset($request->tag)){
                 $request->tag = "%%";
             }
+            $offset=0;
 
         // Consultas para el search
         if(isset($request->search)){
             
             // Por Autor
-                $users = User::where("name","like","%$request->search%")->get()->all();
-
-                $posts_array=[];
-
-                foreach($users as $user){
-                    array_push($posts_array, $user->posts()->get()->all());
-                }
+                $users = User::where("name","like","%$request->search%")->offset($offset)->limit(12)->get();
 
                 //Compruebo si trajo resultados:
-                if(sizeof($posts_array)>0){
+                if(sizeof($users)>0){
                     //Se lo paso a la vista:
-                    return view('dashboard', compact('posts_array'));
+                    $masonry_results=sizeOf($users);//Cantidad de resultados para calcular el height estimativo del masonry.
+                    return view('dashboard', with(compact('users','masonry_results')));
                 }
 
-            // Por titulo (name)
-                $posts = Post::where("name","like","%$request->search%")->get()->all();
+            // Por titulo (name)  - Tengo que pdrile que primero busque x nombre y desp x tags, sin los traen resultados $EstanLosDos = true y hace una
+                                //  nueva búsqueda por ambos where name y where tags orderBy categoria alfabético sino están los 2 hace la búsqueda por
+                                //  el que haya
+                $posts = Post::where("category_id","$request->simbolo","$request->categoria")
+                    ->where("name","like","%$request->search%")
+                    ->orwhere("tags", "like", "%$request->search%")
+                    ->orderBy('id', "$request->fecha")
+                    ->offset($offset)
+                    ->limit(12)
+                    ->get();
 
                 if(sizeof($posts)>0){
-                    return view('dashboard', compact('posts'));
+                                                            
+                    if($request->categoria!==0 || $request->fecha == 'ASC' || $request->fecha == 'DESC' || $request->fecha == 'asc' || $request->fecha == 'desc'){
+                        $categoria = $request->categoria;
+                        $fecha = $request->fecha;
+                        $search=$request->search;
+                    }
+                    $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
+                    return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'search', 'masonry_results')));
                 }
 
             // Por Categoría
@@ -68,45 +82,85 @@ class PostController extends Controller
                 //el first devuelve un resultado al que no se le puede consultar sizeof.
 
                 if(sizeof($categoria)>0){                                                  
-                    $posts = $categoria[0]->posts()->orderBy('id', "$request->fecha")->get()->all();                         
+                    $posts = $categoria[0]->posts()->orderBy('id', "$request->fecha")->offset($offset)->limit(12)->get();                         
                     if(sizeof($posts)>0){                                                 
-                        return view('dashboard', compact('posts'));
+                                                                
+                        if($request->categoria!==0 || $request->fecha == 'ASC' || $request->fecha == 'DESC' || $request->fecha == 'asc' || $request->fecha == 'desc'
+                            ){
+                            $categoria = $request->categoria;
+                            $fecha = $request->fecha;
+                            $search=$request->search;
+                        }
+                        $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
+
+                        return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'search','masonry_results')));
+
                     }
                 }
 
             // Por tags 
-                $posts = Post::where("tags","like","%$request->search%")->where("category_id","$request->simbolo","$request->categoria")->orderBy('id', "$request->fecha")->get()->all();
+                $posts = Post::where("tags","like","%$request->search%")->where("category_id","$request->simbolo","$request->categoria")->orderBy('id', "$request->fecha")->offset($offset)->limit(12)->get();
 
                 if(sizeof($posts)>0){
-                    return view('dashboard', compact('posts'));
+                                        
+                    if($request->categoria!==0 || $request->fecha == 'ASC' || $request->fecha == 'DESC' || $request->fecha == 'asc' || $request->fecha == 'desc'){
+                        $categoria = $request->categoria;
+                        $fecha = $request->fecha;
+                        $search=$request->search;
+                    }
+                    $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
+                    return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'search','masonry_results')));
                 }
 
                 //En caso de no entcontrar resultados:
-                return view('dashboard');
+                return view('dashboard', compact('masonry_results'));
             
         }
         
         else{
             
             // Consulta para filtros del menú desplegable
-                $posts = Post::where("category_id","$request->simbolo","$request->categoria")->where("tags","like","$request->tag")->orderBy('id', "$request->fecha")->get()->all(); //Tiene que ser la mas compleja posible para reemplazar los datos
+                $posts = Post::where("category_id","$request->simbolo","$request->categoria")->where("tags","like","$request->tag")->orderBy('id', "$request->fecha")->offset($offset)->limit(12)->get(); //Tiene que ser la mas compleja posible para reemplazar los datos
                 
-                return view('dashboard', compact('posts'));
+                if($request->categoria!==0 || $request->fecha == 'ASC' || $request->fecha == 'DESC' || $request->fecha == 'asc' || $request->fecha == 'desc'){
+                    $categoria = $request->categoria;
+                    $fecha = $request->fecha;
+                }
+
+                $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
+
+                return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'masonry_results')));
+                
 
         }
         
     }
 
-    public function posts_user($name){
+    public function posts_user(User $user){
 
-        $user = User::find(auth()->user()->id);
-        $posts = $user->posts()->get()->all();
+        if(User::find(auth()->user()) && auth()->user()->id == $user->id){
+            $posts = $user->posts()->get()->all();
+            $authorized = true;
+            return view('user.posts', with(compact('posts', 'user', 'authorized')));
+        }
+        else{
+            $posts = $user->posts()->get()->all();
+            $authorized = false;
+            return view('user.posts', with(compact('posts', 'user', 'authorized')));
+        }
 
-        return view('user.posts', compact('posts'));
+        
     }
 
     public function show($id, $post){
         $post = Post::find($id);
+
+        //Si quisiera mostrar acá quienes le dieron like:antes del return hago: 
+        $likers = User::select("users.*")->join("likes","users.id","=","likes.user_id")->join("posts","posts.id","=","likes.post_id")->where("posts.id","=","$id")->get()->all();
+        if(sizeof($likers)>0){
+            return view('posts.show', with(compact('post','likers')));
+        }
+        
         return view('posts.show', compact('post'));
     }
 
@@ -123,7 +177,7 @@ class PostController extends Controller
         //       ya que cuando se filtre por tag se usará el LIKE %nombre_tag% y por ende da igual que sea todo un solo string con comas
 
         $request->validate([                
-            'name' => 'required|max:10',
+            'name' => 'required|max:50',
             'body' => 'required|min:5',
             'category' => 'required',
             //'cover' => 'required'
@@ -203,6 +257,5 @@ class PostController extends Controller
 
         return redirect()->route('posts.show', [$post->id, $post->name]);
     }
-
 
 }

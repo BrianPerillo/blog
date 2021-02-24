@@ -117,4 +117,9 @@ class User extends Authenticatable
         return $this->hasMany(Answer::class);
     }
 
+    //Relación 1:N - 1 user puede dar N likes.
+    public function post_likeados(){
+        return $this->hasMany(Post::class);
+    }
+
 }

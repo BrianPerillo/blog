@@ -28,5 +28,10 @@ class Post extends Model
     public function comments(){
         return $this->morphMany(Comment::class, 'commentable')->orderBy('id', 'DESC');
     }
+
+    //Relación 1:N - 1 post puede tener N likes.
+    public function likes(){
+        return $this->hasMany(Like::class);
+    }
     
 }
