@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 mt-1" style="background-color:white;">
+    <div class="py-12 mt-1" style="background-color:white;padding-bottom:80px">
         <div class="max-w-9xl mx-auto sm:px-6 lg:px-8">
 
            @if(!isset($categoria)) {{$categoria=''}} @endif
@@ -18,7 +18,7 @@
 
             </x-search>
 
-            <div class="container">
+            <div class="container" style="margin-bottom:50px">
 
                 
                 @if($masonry_results<=3)
@@ -31,7 +31,7 @@
                     @php $height="900px" @endphp
 
                 @elseif($masonry_results>9)
-                    @php $height="1200px" @endphp
+                    @php $height="1100px" @endphp
                     
                 @endif
 
@@ -79,10 +79,17 @@
                 @if(isset($posts))
                     <div class="">
                         <form action="{{route('dashboard.filtros')}}" class="" action="" method="get">
-                            <button type="submit" class="btn btn-primary">Anterior</button>
-                                <input id="Siguiente" hidden name="pagina" value="0">
-                            <button id="Anterior" type="submit" class="btn btn-primary">Siguente</button>
-                                <input hidden name="pagina" value="0">
+                            <button id="button_anterior" type="submit" class="btn btn-primary" onclick="anterior('button_anterior')">Anterior</button>
+                                <input id="anterior" hidden name="" value="">
+                            <button id="button_siguiente" 
+                            type="submit" class="btn btn-primary" 
+                            onclick="next('button_siguiente')"
+                            @if(isset($disabled) && $disabled==true) {{'disabled'}} @endif>Siguente</button>
+                                <input hidden id="siguiente" name="" value="">
+
+                            <!-- Filtros preexistentes -->
+                            <input hidden id="filtro_preexistente_1_pagina" type="text" name="" value="">
+                            <input hidden id="filtro_preexistente_2_pagina" type="text" name="" value="">
                         </form>
                     </div>
 
@@ -90,14 +97,21 @@
                     <div class="">
                         <form action="{{route('dashboard.filtros')}}" class="" action="" method="get">
                             <button type="submit" class="btn btn-primary">Anterior</button>
-                            <button type="submit" class="btn btn-primary">Siguente</button>
+                            <button type="submit" class="btn btn-primary" @if(isset($disabled) && $disabled==true) {{'disabled'}} @endif>Siguente</button>
                         </form>
                     </div>
-                @endif
+
 
             </div>
 
+            @endif
 
         </div>
+
+
     </div>
+
+   
+
 </x-app-layout>
+

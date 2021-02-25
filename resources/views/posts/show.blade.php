@@ -21,8 +21,6 @@
             @endif
             <br>
 
-            @livewireStyles
-
             <livewire:like-component :post="$post"/>
 
 
@@ -127,7 +125,6 @@
     </div>
 </x-app-layout>
 
-@livewireScripts
 
 <script>
 let button = document.querySelector(".like-button");

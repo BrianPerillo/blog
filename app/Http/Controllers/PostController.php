@@ -24,8 +24,12 @@ class PostController extends Controller
     public function posts_filtrados(Request $request){
         
         // Establezco valores por defecto:
+            
             $masonry_results=1;
             $request->simbolo = "=";
+            if(!isset($request->fecha)){
+                
+            }
             if(!isset($request->fecha)){
                 $request->fecha = "DESC";
             }
@@ -38,17 +42,53 @@ class PostController extends Controller
             }
             $offset=0;
 
+        //Cambiar de Página
+        if(isset($request->offset)){
+            $offset = $request->offset;
+            $disabled = false; //Si cambia a true se desabilitará el button siguiente en la vista.
+
+            $resultados = Post::where("category_id","$request->simbolo","$request->categoria")->where("tags","like","$request->tag")->orderBy('id', "$request->fecha")->get()->all();
+            $cantidad_resultados = sizeof($resultados);
+            if($offset>$cantidad_resultados){
+                $offset=$cantidad_resultados-1;
+                $disabled = true; //Se lo paso a la vista, le digo si disabled = true que desabilite el button de siguiente
+            }
+            if($cantidad_resultados<12){
+                $offset=0;
+                $disabled = true; //Se lo paso a la vista, le digo si disabled = true que desabilite el button de siguiente
+            }
+            $posts = Post::where("category_id","$request->simbolo","$request->categoria")->where("tags","like","$request->tag")->orderBy('id', "$request->fecha")->offset($offset)->limit(12)->get(); 
+            $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
+            return view('dashboard', with(compact('posts','masonry_results','disabled')));
+        }
+
         // Consultas para el search
         if(isset($request->search)){
             
             // Por Autor
+
                 $users = User::where("name","like","%$request->search%")->offset($offset)->limit(12)->get();
 
                 //Compruebo si trajo resultados:
                 if(sizeof($users)>0){
+
+                    //Corroboro la cantidad total de resultados para en caso de ser menor a 12 desabilitar el button de siguiente
+                        $disabled = false;
+
+                        $resultados = User::where("name","like","%$request->search%")->get()->all();
+                        $cantidad_resultados = sizeof($resultados);
+                        if($cantidad_resultados<12){
+                            $offset=0;
+                            $disabled = true; //Se lo paso a la vista, le digo si disabled = true que desabilite el button de siguiente
+                        }
+                        if($request->categoria!==0 || $request->fecha == 'ASC' || $request->fecha == 'DESC' || $request->fecha == 'asc' || $request->fecha == 'desc'){
+                            $categoria = $request->categoria;
+                            $fecha = $request->fecha;
+                            $search=$request->search;
+                        }
                     //Se lo paso a la vista:
                     $masonry_results=sizeOf($users);//Cantidad de resultados para calcular el height estimativo del masonry.
-                    return view('dashboard', with(compact('users','masonry_results')));
+                    return view('dashboard', with(compact('users','search', 'masonry_results','disabled')));
                 }
 
             // Por titulo (name)  - Tengo que pdrile que primero busque x nombre y desp x tags, sin los traen resultados $EstanLosDos = true y hace una
@@ -63,6 +103,15 @@ class PostController extends Controller
                     ->get();
 
                 if(sizeof($posts)>0){
+                    //Corroboro la cantidad total de resultados para en caso de ser menor a 12 desabilitar el button de siguiente
+                        $disabled = false;
+                        
+                        $resultados = Post::where("category_id","$request->simbolo","$request->categoria")->where("name","like","%$request->search%")->orwhere("tags", "like", "%$request->search%")->orderBy('id', "$request->fecha")->get()->all();
+                        $cantidad_resultados = sizeof($resultados);
+                        if($cantidad_resultados<12){
+                            $offset=0;
+                            $disabled = true; //Se lo paso a la vista, le digo si disabled = true que desabilite el button de siguiente
+                        }
                                                             
                     if($request->categoria!==0 || $request->fecha == 'ASC' || $request->fecha == 'DESC' || $request->fecha == 'asc' || $request->fecha == 'desc'){
                         $categoria = $request->categoria;
@@ -70,7 +119,7 @@ class PostController extends Controller
                         $search=$request->search;
                     }
                     $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
-                    return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'search', 'masonry_results')));
+                    return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'search', 'masonry_results','disabled')));
                 }
 
             // Por Categoría
@@ -81,7 +130,16 @@ class PostController extends Controller
                 //user el sizeof luego ya que solo funcionar con arrays o ciertos objetos.      
                 //el first devuelve un resultado al que no se le puede consultar sizeof.
 
-                if(sizeof($categoria)>0){                                                  
+                if(sizeof($categoria)>0){
+                    $disabled = false;
+                    
+                    $resultados = $categoria[0]->posts()->orderBy('id', "$request->fecha")->get()->all();   
+                    $cantidad_resultados = sizeof($resultados);
+                    if($cantidad_resultados<12){
+                        $offset=0;
+                        $disabled = true; //Se lo paso a la vista, le digo si disabled = true que desabilite el button de siguiente
+                    }
+
                     $posts = $categoria[0]->posts()->orderBy('id', "$request->fecha")->offset($offset)->limit(12)->get();                         
                     if(sizeof($posts)>0){                                                 
                                                                 
@@ -93,7 +151,7 @@ class PostController extends Controller
                         }
                         $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
 
-                        return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'search','masonry_results')));
+                        return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'search','masonry_results','disabled')));
 
                     }
                 }
@@ -102,6 +160,14 @@ class PostController extends Controller
                 $posts = Post::where("tags","like","%$request->search%")->where("category_id","$request->simbolo","$request->categoria")->orderBy('id', "$request->fecha")->offset($offset)->limit(12)->get();
 
                 if(sizeof($posts)>0){
+                    $disabled = false;
+                    
+                    $resultados = $posts = Post::where("tags","like","%$request->search%")->where("category_id","$request->simbolo","$request->categoria")->orderBy('id', "$request->fecha")->get()->all(); 
+                    $cantidad_resultados = sizeof($resultados);
+                    if($cantidad_resultados<12){
+                        $offset=0;
+                        $disabled = true; //Se lo paso a la vista, le digo si disabled = true que desabilite el button de siguiente
+                    }
                                         
                     if($request->categoria!==0 || $request->fecha == 'ASC' || $request->fecha == 'DESC' || $request->fecha == 'asc' || $request->fecha == 'desc'){
                         $categoria = $request->categoria;
@@ -109,7 +175,7 @@ class PostController extends Controller
                         $search=$request->search;
                     }
                     $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
-                    return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'search','masonry_results')));
+                    return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'search','masonry_results', 'disabled')));
                 }
 
                 //En caso de no entcontrar resultados:
@@ -120,16 +186,37 @@ class PostController extends Controller
         else{
             
             // Consulta para filtros del menú desplegable
+            
                 $posts = Post::where("category_id","$request->simbolo","$request->categoria")->where("tags","like","$request->tag")->orderBy('id', "$request->fecha")->offset($offset)->limit(12)->get(); //Tiene que ser la mas compleja posible para reemplazar los datos
                 
-                if($request->categoria!==0 || $request->fecha == 'ASC' || $request->fecha == 'DESC' || $request->fecha == 'asc' || $request->fecha == 'desc'){
-                    $categoria = $request->categoria;
-                    $fecha = $request->fecha;
+                if(sizeof($posts)>0){
+
+                     //Corroboro la cantidad total de resultados para en caso de ser menor a 12 desabilitar el button de siguiente
+                        $disabled = false;
+        
+                        $resultados = Post::where("category_id","$request->simbolo","$request->categoria")->where("tags","like","$request->tag")->orderBy('id', "$request->fecha")->get(); 
+                        $cantidad_resultados = sizeof($resultados);
+                        if($cantidad_resultados<12){
+                            $offset=0;
+                            $disabled = true; //Se lo paso a la vista, le digo si disabled = true que desabilite el button de siguiente
+                        }
+
+                    if($request->categoria!==0 || $request->fecha == 'ASC' || $request->fecha == 'DESC' || $request->fecha == 'asc' || $request->fecha == 'desc'){
+                        $categoria = $request->categoria;
+                        $fecha = $request->fecha;
+                    }
+        
+                    $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
+        
+                    return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'masonry_results', 'disabled')));
                 }
 
+               else {
+                $posts = Post::orderBy('id', 'DESC')->offset(0)->limit(12)->get();
                 $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
-
-                return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'masonry_results')));
+                return view('dashboard', with(compact('posts', 'masonry_results')));
+               }
+                
                 
 
         }

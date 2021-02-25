@@ -7,7 +7,11 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
-
+        
+        <!-- JQuery para chat-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+        
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
@@ -15,7 +19,7 @@
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         <script src="{{ asset('js/main.js') }}"></script>
-        <script src="{{ asset('js/jquery-3.5.1.slim.min.js') }}"></script>
+        
         <!--Editor de Textos-->
         <script src="{{asset('vendor/ckeditor/ckeditor.js')}}"></script>
         <!--Likes-->                      
@@ -28,6 +32,7 @@
         @include('ckfinder::setup')
         
         @livewireStyles
+        @livewireScripts
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
@@ -55,6 +60,5 @@
 
         @stack('modals')
 
-        @livewireScripts
     </body>
 </html>
