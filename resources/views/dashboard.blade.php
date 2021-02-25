@@ -21,31 +21,16 @@
             </div>
             <div class="container" style="margin-bottom:50px">
 
-                
-                @if($masonry_results<=3)
-                    @php $height="300px" @endphp
 
-                @elseif($masonry_results>3 && $masonry_results<=6)
-                    @php $height="680px" @endphp
-
-                @elseif($masonry_results>6 && $masonry_results<=9)
-                    @php $height="900px" @endphp
-
-                @elseif($masonry_results>9)
-                    @php $height="950px" @endphp
+                <div class="row">
                     
-                @endif
-
-
-                <div class="container-masonry" style="height:{{$height}}">
-                
                     @if(isset($posts))
                         @foreach($posts as $post)
-                            <div class="item">
-                                <a href="{{route('posts.show', [$post->id, $post->name])}}">
+                            <div class="col-md-4 mb-4" style="display:flex;align-items: center;width:30%">
+                                <a href="{{route('posts.show', [$post->id, $post->name])}}" style="color:white">
                                     <div class="" style="position:relative; width:100%;">
                                         <img src="{{$post->image->url}}" style="border-radius:8px; width: 100%;height:100%;object-fit: cover;" alt="">
-                                        <div class="card-title text-center m-0" style="border-radius:0px 0px 8px 8px;width:100%;height:31%;background-color: rgba(0, 0, 0, 0.5);position:absolute;bottom:0px;left:0px"><p>{{$post->name}}</p></div>
+                                        <div class="card-title text-center m-0 " style="display:flex;align-items:center;border-radius:0px 0px 8px 8px;width:100%;height:31%;background-color: rgba(0, 0, 0, 0.5);position:absolute;bottom:0px;left:0px"><p class="m-auto">{{$post->name}}</p></div>
                                     </div>
                                 </a>
                             </div>
@@ -53,8 +38,8 @@
 
                     @elseif(isset($users))
                         @foreach($users as $user)
-                            <div class="item">
-                                <a href="{{route('user.posts', $user->id)}}">
+                            <div class="col-md-4">
+                                <a href="{{route('user.posts', $user->id)}}" style="color:white">
                                     <div class="" style="position:relative; width:100%;">
                                         <!--<img src="" style="border-radius:8px; width: 100%;height:100%;object-fit: cover;" alt="">-->
                                         <div class="card-title text-center m-0" style="border-radius:0px 0px 8px 8px;width:100%;height:31%;background-color: rgba(0, 0, 0, 0.5);position:absolute;bottom:0px;left:0px"><p>{{$user->name}}</p></div>
@@ -75,17 +60,27 @@
                     @endif
 
                 </div>
-                <hr style="border: 0;height: 1px;background-image: linear-gradient(to right, rgba(28, 132, 201, 0.8), rgba(92 142 156 / 45%), rgba(207 245 255 / 10%));">
+                <hr><br>
                 
                 @if(isset($posts))
                     <div class="">
                         <form action="{{route('dashboard.filtros')}}" class="" action="" method="get">
-                            <button id="button_anterior" type="submit" class="btn btn-primary" onclick="anterior('button_anterior')">Anterior</button>
+                            <button id="button_anterior" class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default rounded-l-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
+                                type="submit"  
+                                onclick="prev('button_anterior')">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
                                 <input id="anterior" hidden name="" value="">
-                            <button id="button_siguiente" 
-                            type="submit" class="btn btn-primary" 
-                            onclick="next('button_siguiente')"
-                            @if(isset($disabled) && $disabled==true) {{'disabled'}} @endif>Siguente</button>
+                            <button id="button_siguiente" class="relative inline-flex items-center px-2 py-2 -ml-px text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md leading-5 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
+                                type="submit"  
+                                onclick="next('button_siguiente')"
+                                @if(isset($disabled) && $disabled==true) {{'disabled'}} @endif>
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
                                 <input hidden id="siguiente" name="" value="">
 
                             <!-- Filtros preexistentes -->
@@ -99,6 +94,7 @@
                         <form action="{{route('dashboard.filtros')}}" class="" action="" method="get">
                             <button type="submit" class="btn btn-primary">Anterior</button>
                             <button type="submit" class="btn btn-primary" @if(isset($disabled) && $disabled==true) {{'disabled'}} @endif>Siguente</button>
+ 
                         </form>
                     </div>
 

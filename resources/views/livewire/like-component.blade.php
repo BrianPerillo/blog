@@ -1,6 +1,6 @@
 <div>
-    <hr style="border: 0;height: 1px;background-image: linear-gradient(to right, rgba(78, 152, 202, 0.205), rgba(92 142 156 / 45%), rgba(207 245 255 / 10%));">
-        <div style="width: 85%; margin-bottom:80px;">
+    <hr>
+        <div style="width: 85%; margin-bottom:80px;margin-top:23px">
             <div class="float-right m-2">
                 {{$post->likes}}
             </div>
@@ -13,6 +13,6 @@
                 </form>
             </div>
         </div>
-
+        <hr>
 </div>
 

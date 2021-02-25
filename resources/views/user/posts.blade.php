@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-1">
-        <div class="max-w-9xl mx-auto sm:px-6 lg:px-8" style="padding-left:20%;padding-right:20%;padding-top:30px;background-color:white">
+        <div class="max-w-9xl mx-auto sm:px-6 lg:px-8" style="padding-left:20%;padding-right:20%;padding-top:30px;padding-bottom:40px;background-color:white">
             
             <div style="margin-bottom:40px">
                 <h3>Mis Posts: </h3>

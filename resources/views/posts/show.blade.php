@@ -25,7 +25,7 @@
                 @endif
 
                 @if(auth()->user())
-                    <livewire:like-component :post="$post"/>
+                        <livewire:like-component :post="$post"/>
                 @endif
 
             </div>

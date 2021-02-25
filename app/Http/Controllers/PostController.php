@@ -16,7 +16,7 @@ class PostController extends Controller
 {
 
     public function posts(){
-        $posts = Post::orderBy('id', 'DESC')->offset(0)->limit(12)->get();
+        $posts = Post::orderBy('id', 'DESC')->offset(0)->limit(15)->get();
         $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
         return view('dashboard', with(compact('posts', 'masonry_results')));
     }
