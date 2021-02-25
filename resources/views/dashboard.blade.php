@@ -14,15 +14,16 @@
 
            @if(!isset($search)) @php $search='Buscar por Título, Autor, Categoría o Tag' @endphp @endif
             
-            <x-search :categoria="$categoria" :fecha="$fecha" :search="$search">
+            <div style="margin-bottom: 40px">
+                <x-search :categoria="$categoria" :fecha="$fecha" :search="$search">
 
-            </x-search>
-
+                </x-search>
+            </div>
             <div class="container" style="margin-bottom:50px">
 
                 
                 @if($masonry_results<=3)
-                    @php $height="370px" @endphp
+                    @php $height="300px" @endphp
 
                 @elseif($masonry_results>3 && $masonry_results<=6)
                     @php $height="680px" @endphp
@@ -31,7 +32,7 @@
                     @php $height="900px" @endphp
 
                 @elseif($masonry_results>9)
-                    @php $height="1100px" @endphp
+                    @php $height="950px" @endphp
                     
                 @endif
 

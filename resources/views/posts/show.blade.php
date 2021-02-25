@@ -8,21 +8,27 @@
     <div class="py-5">
         <div class="container mt-0 p-4" style="border-radius:10px;background-color: white">
             
-            {{$post->id}}</br>
-            {{$post->name}}</br>
-            {!! $post->body !!}</br>
-            {{"Categoría: ".$post->category->name}}</br>
-            {{"Tags: ".$post->tags}}</br>
-            {{"Likers: "}}
-            @if(isset($likers))
-                @foreach ($likers as $liker)
-                    {{$liker->name}}
-                @endforeach
-            @endif
-            <br>
+            <div class="m-4">
+                <p style="margin-left:-20px;margin-bottom:40px">Autor: {{auth()->user()->name}}</p>
+                <p style="font-size:10px;">
+                    <h2>{{$post->name}}</h2>
+                </p>
+                <p style="margin-bottom:40px;margin-left:10px">
+                    <small><i>{{"- Categoría: ".$post->category->name}}</i></small>
+                </p>
+                <p>
+                    {!! $post->body !!}
+                </p>
+                
+                @if($post->tags)
+                {{"Tags: ".$post->tags}}</br>
+                @endif
 
-            <livewire:like-component :post="$post"/>
+                @if(auth()->user())
+                    <livewire:like-component :post="$post"/>
+                @endif
 
+            </div>
 
             <div class="mx-auto items-center justify-center max-w-xl">
 
@@ -37,7 +43,7 @@
                             
                                 
                                     <div class="flex flex-wrap -mx-3 mb-6">
-                                        <h2 class="px-4 pt-3 pb-2 text-gray-800 text-lg">Agregar Comentario</h2>
+                                        <h2 class="px-4 pt-3 pb-2 text-gray-800 text-lg">Comentarios</h2>
                                         <div class="w-full md:w-full px-3 mb-2 mt-2">
                                             <textarea class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" name="comment" placeholder='Escribir Comentario' required></textarea>
                                         </div>
@@ -61,7 +67,7 @@
                     
                 @else
 
-                        <p><strong>Para poder comentar y responder comentarios debes Iniciar Sesión</strong></p>
+                        <p><strong>Para poder dar like, comentar y responder comentarios debes Iniciar Sesión</strong></p>
 
                 @endif
 

@@ -23,7 +23,7 @@
                         </div>
                         
                         <div class="form-group col-md-6">
-                            <p><strong>Seleccioná la/s categoría/s</strong></p>
+                            <p><strong>Seleccioná una categoría</strong></p>
                             @foreach ($categorias as $categoria)
                             <div class="float-left" style="width:125px">
                                 <label class="m-auto" for="{{$categoria->name}}">
@@ -39,32 +39,32 @@
                 <div style="width: 64%;margin:auto">
                     <div class="mt-10 row d-flex justify-center p-10" style="margin-bottom:70px;background-color:white;border-radius:15px 15px 15px 15px;">
 
-                        <div class="form-group col-md-6">
+                        {{-- <div class="form-group col-md-6">
                             <p class=""><strong>Previsualización</strong></p>
                             <div>
                                 <img src="" alt="">
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group col-md-6">
-                            <p class=""><strong>Seleccióna una imagen de portada</strong></p>
+                            <p class=""><strong>Cargá una imagen de portada</strong></p>
                             <label style="display:block" for="cover_url">Cargar mediante url
-                                <input id="cover_url" class="form-control-file mt-1" name="cover_url" type="text" placeholder="Ingresar url" value={{old('cover_url')}}>
-                                {{-- @error('cover_url')
-                                {{$message}}
-                                @enderror --}}
+                                <input class="form-control-file mt-1" name="cover_url" type="text" placeholder="Ingresar url" value={{old('cover_url')}}>
+                                @if(isset($failed_image_size)&&$failed_image_size==true)
+                                  {{$message_image_size}}
+                                @endif
                             </label>
 
-                            <br><br>
+                            {{-- <br><br>
                             <p class="text-center"><strong>ó</strong></p>
                             <br>
-
+                            
                             <p class="mb-1">Seleccionar una imagen</p>
                             <label class="btn btn-primary" style="display:block" 
                                 for="cover_file">Cargar Imagen
                                 <input id="cover_file" class="form-control pt-1" type="file" name="cover_file" style="display:none" value={{old('cover_file')}}> 
                             </label>
-                            <div id="img_seleccionada"><p></p></div>
+                            <div id="img_seleccionada"><p></p></div> --}}
                             {{-- @error('cover_file')
                             {{$message}}
                             @enderror --}}

@@ -182,13 +182,22 @@ class PostController extends Controller
                 return view('dashboard', compact('masonry_results'));
             
         }
-        
+
+
+        // Consulta para filtros del menú desplegable
         else{
+                //Si filtro por likes la consulta es otra, se reemplaza el orderBy id por orderBy Likes
+                $like_activo = false;
+
+                if(isset($request->like)){
+                    $posts = Post::where("category_id","$request->simbolo","$request->categoria")->where("tags","like","$request->tag")->orderBy('likes', "$request->like")->offset($offset)->limit(12)->get(); //Tiene que ser la mas compleja posible para reemplazar los datos
+                    $like_activo = true;
+                }
+
+                else{
+                    $posts = Post::where("category_id","$request->simbolo","$request->categoria")->where("tags","like","$request->tag")->orderBy('id', "$request->fecha")->offset($offset)->limit(12)->get(); //Tiene que ser la mas compleja posible para reemplazar los datos
+                }
             
-            // Consulta para filtros del menú desplegable
-            
-                $posts = Post::where("category_id","$request->simbolo","$request->categoria")->where("tags","like","$request->tag")->orderBy('id', "$request->fecha")->offset($offset)->limit(12)->get(); //Tiene que ser la mas compleja posible para reemplazar los datos
-                
                 if(sizeof($posts)>0){
 
                      //Corroboro la cantidad total de resultados para en caso de ser menor a 12 desabilitar el button de siguiente
@@ -208,16 +217,14 @@ class PostController extends Controller
         
                     $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
         
-                    return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'masonry_results', 'disabled')));
+                    return view('dashboard', with(compact('posts', 'categoria', 'fecha', 'masonry_results', 'disabled', 'like_activo')));
                 }
 
-               else {
+                else {
                 $posts = Post::orderBy('id', 'DESC')->offset(0)->limit(12)->get();
                 $masonry_results=sizeOf($posts);//Cantidad de resultados para calcular el height estimativo del masonry.
-                return view('dashboard', with(compact('posts', 'masonry_results')));
-               }
-                
-                
+                return view('dashboard', with(compact('posts', 'masonry_results','like_activo')));
+               }     
 
         }
         
@@ -226,7 +233,7 @@ class PostController extends Controller
     public function posts_user(User $user){
 
         if(User::find(auth()->user()) && auth()->user()->id == $user->id){
-            $posts = $user->posts()->get()->all();
+            $posts = $user->posts()->orderBy('id','DESC')->get()->all();
             $authorized = true;
             return view('user.posts', with(compact('posts', 'user', 'authorized')));
         }
@@ -275,6 +282,15 @@ class PostController extends Controller
             'category' => 'required',
             //'cover' => 'required'
         ]);
+
+        $imageSize = getimagesize("$request->cover_url");
+        if(($imageSize[0]>1200 && $imageSize[1]>800) || $imageSize[0]<$imageSize[1] ||$imageSize[1]<500){ 
+            $categorias = Category::get()->all();
+            $failed_image_size = true;
+            $message_image_size = "La imagen excede tamaño máximo permitido";
+            return view('posts.create', compact('categorias','failed_image_size','message_image_size'));
+
+    }
         
         $post = new Post();
         
@@ -283,6 +299,7 @@ class PostController extends Controller
         $post->category_id = "$request->category";
         $post->user_id = "$request->user_id";
         $post->tags = "$request->tag_2"; 
+        $post->likes = 0; 
         $post->save();
 
         $id_post = auth()->user()->last_post()->id;
@@ -299,7 +316,8 @@ class PostController extends Controller
 
     
     public function edit(Post $post){
-        return view('posts.edit')->with(compact('post'));
+        $categorias = Category::get()->all();
+        return view('posts.edit')->with(compact('post','categorias'));
     }
 
     public function update(Request $request, Post $post){
@@ -320,10 +338,13 @@ class PostController extends Controller
     }
 
     
-    public function destroy(Post $post){
+    public function destroy(Post $post, User $user){
 
         $post->delete();
-        return redirect()->route('dashboard');
+        $posts=$user->posts()->get()->all();
+        $user = User::find($user->id);
+        $authorized=true;
+        return redirect()->route('user.posts', with(compact('posts', 'user', 'authorized')));
     }
 
     public function store_comment(Post $post, Request $request){

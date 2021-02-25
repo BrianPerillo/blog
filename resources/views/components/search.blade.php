@@ -37,9 +37,9 @@
                         </div>
                         
                         <div class="row col-md-12 m-0 mb-5 d-flex justify-content-center">
-                            <form class="col-md-12 d-flex justify-content-center" action="{{route('dashboard.filtros')}}" method="get">
+                            <form class="col-md-12" action="{{route('dashboard.filtros')}}" method="get">
                                 
-                                <div class="col-md-4 float-left">
+                                <div class="col-md-4 float-left" style="margin-left:12%">
                                     <p class="text-center"><strong>Fecha</strong></p>
                                     <!--<label class="btn p-0 m-0 m-auto" style="display: block" for="masrecientes">MásRecientes
                                         <input hidden name="masrecientes" type="button" value="consultaSQL">
@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
                     
-                                <div class="col-md-4 float-left"> 
+                                <div class="col-md-4 float-right" style="margin-right:20%"> 
                                     <p class="text-center"><strong>Categoría</strong></p>
                                     <div class="col-md-8 float-left">
                                         <div class="mb-2">
@@ -114,12 +114,15 @@
                                 <input hidden id="filtro_preexistente" type="text" name="" value="">
                                 <input hidden id="filtro_preexistente2" type="text" name="" value="">
 
-                                <div class="col-md-4 float-left">
+
+                                {{-- <div class="col-md-4 float-left">
                                     <p class="text-center"><strong>Valoración</strong></p>
-                                    <div class="mb-2">
-                                        <input type="submit" class="m-auto " style="display: block;background-color:white" value="Más gustados">
+                                    <div class="mb-2 text-center">
+                                        <input hidden class="" style="display: block;background-color:white" name="like" value="desc">@if(isset($like_activo)){{"sssssssss"}}@endif
+                                        <button type="submit"><p style="margin:0;padding:0" @if(isset($like_activo)&&$like_activo==true) {{'class=font-weight-bold'}} @endif>Mas gustados</button>
                                     </div>
                                 </div>
+                                 --}}
                     
                             </form>
                         </div>
