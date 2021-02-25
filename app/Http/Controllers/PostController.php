@@ -233,7 +233,7 @@ class PostController extends Controller
     public function posts_user(User $user){
 
         if(User::find(auth()->user()) && auth()->user()->id == $user->id){
-            $posts = $user->posts()->orderBy('id','DESC')->get()->all();
+            $posts = $user->posts()->orderBy('id','DESC')->paginate(7);
             $authorized = true;
             return view('user.posts', with(compact('posts', 'user', 'authorized')));
         }

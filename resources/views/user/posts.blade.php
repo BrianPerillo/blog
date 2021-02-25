@@ -5,47 +5,55 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-9xl mx-auto sm:px-6 lg:px-8" style="padding-left:300px;padding-right:300px;padding-top:80px;background-color:white">
+    <div class="py-1">
+        <div class="max-w-9xl mx-auto sm:px-6 lg:px-8" style="padding-left:20%;padding-right:20%;padding-top:30px;background-color:white">
             
-            <h3>Mis Posts: </h3>
-
-            <div class="row m-2" style="overflow: scroll; width:100%; height:650px;">
-                @foreach($posts as $post)
-                <div class="col-md-3 mb-5">
-                    <a class="col-sm-3 m-1 p-2" href="{{route('posts.show', [$post->id, $post->name])}}">
-                        <div style="margin:auto">
-                            <img class="mx-auto" src="{{$post->image->url}}" style="width:250px;border-radius:10px;">
-                            <div class="text-center mt-2"><p>{{$post->name}}</p></div>
-                        </div>
-                    </a>
-
-                        @if(auth()->user() && auth()->user()->id == $user->id)
-                            <div class="d-flex justify-content-center">
-                                <div class="float-left mr-2">
-                                    <form action="{{route('posts.edit', $post)}}" method="get">
-                                        <button class="btn btn-primary" type="submit">
-                                            <i class="far fa-edit"></i>
-                                        </button> 
-                                    </form>
-                                </div>
-                                <div class="float-left mr-2">
-                                    <form action="{{route('posts.delete', [$post,$user])}}" method="post">
-                                        @csrf
-                                        @method('delete')
-                                        <button class="btn btn-danger" type="submit">
-                                            <i class="far fa-trash-alt"></i>
-                                        </button> 
-
-                                    </form>
-                                </div>
-                            </div>
-                        @endif
-
-                </div>
-                    
-                @endforeach
+            <div style="margin-bottom:40px">
+                <h3>Mis Posts: </h3>
             </div>
+
+                @foreach($posts as $post)  
+
+                <a class="" href="{{route('posts.show', [$post->id, $post->name])}}">
+                    <div class="col mb-1" style="overflow:hidden">
+
+                            <div style="float:left;width:100%;margin-right:30px">
+
+                                <!-- Cover -->
+                                <div style="float:left;margin-right:30px"><img src="{{$post->image->url}}" style="width:140px;border-radius:5px;"></div>
+                                <div class="d-flex justify-content-center" style="float:left;margin-top:30px"><p>{{$post->name}}</p></div>
+
+                                <!-- Botones Edit y Delete -->
+                                @if(auth()->user() && auth()->user()->id == $user->id)
+                                    <div class="d-flex justify-content-center float-right">
+                                        <div class="float-left mr-2">
+                                            <form action="{{route('posts.edit', $post)}}" method="get">
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="far fa-edit"></i>
+                                                </button> 
+                                            </form>
+                                        </div>
+                                        <div class="float-left mr-2">
+                                            <form action="{{route('posts.delete', [$post,$user])}}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-danger" type="submit">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button> 
+
+                                            </form>
+                                        </div>
+                                    </div>
+                    
+                                @endif
+                            </div>
+                    </div>
+                    <hr>
+                </a>
+
+                @endforeach
+          
+                {{ $posts->links() }}
 
         </div>
     </div>
