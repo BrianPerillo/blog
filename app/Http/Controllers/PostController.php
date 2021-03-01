@@ -12,6 +12,8 @@ use App\Models\Image;
 use App\Models\Answer;
 use App\Models\Like;
 
+use Livewire\WithPagination;
+
 class PostController extends Controller
 {
 
@@ -278,13 +280,14 @@ class PostController extends Controller
 
         $request->validate([                
             'name' => 'required|max:50',
-            'body' => 'required|min:5',
+            'body' => 'required',
             'category' => 'required',
+            'cover_url' => 'required',
             //'cover' => 'required'
         ]);
 
         $imageSize = getimagesize("$request->cover_url");
-        if(($imageSize[0]>1200 && $imageSize[1]>800) || $imageSize[0]<$imageSize[1] ||$imageSize[1]<500){ 
+        if(($imageSize[0]>=1200 && $imageSize[1]>800) || $imageSize[0]<$imageSize[1] ||$imageSize[1]<400){ 
             $categorias = Category::get()->all();
             $failed_image_size = true;
             $message_image_size = "La imagen excede tamaño máximo permitido";

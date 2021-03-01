@@ -1,3 +1,26 @@
+/* POSTS */
+.post{
+  opacity:1;
+  transition: opacity 0.7s;
+}
+
+.post:hover{
+  opacity:0.8;
+}
+
+.input-text{
+  width:90%;
+  border-radius:40px;
+}
+
+input:focus{
+  outline:none;
+}
+
+.input-text:focus{
+  outline: none;
+}
+
 /* MASONRY */
 
 .container-masonry{
@@ -32,6 +55,22 @@
 #button:focus { outline: none; }
 
 /* LIKES */
+
+/* Botón Like */
+
+ #boton_like{
+  fill:rgba(127, 211, 141, 0.753);
+  transition: fill 0.5s;
+}
+
+#boton_like_active{
+  fill:rgb(23, 209, 79);
+}
+
+#boton_like:hover {
+  fill:rgb(23, 209, 79)
+};
+
 
 .like-button {
   display: flex;
@@ -225,13 +264,3 @@ input.tag-input {
 
  /* END TAGS */
  
- /* Botón Like */
-
-#boton_like{
-  fill:rgba(127, 211, 141, 0.753);
-  transition: fill 0.5s;
-}
-
-#boton_like:hover {
-  fill:rgb(23, 209, 79)
-};

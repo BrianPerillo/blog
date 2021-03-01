@@ -48,8 +48,13 @@
 
                         <div class="form-group col-md-6">
                             <p class=""><strong>Cargá una imagen de portada</strong></p>
-                            <label style="display:block" for="cover_url">Cargar mediante url
+                            <p><small> -El ancho máximo permitido es de 1200px y el Alto de 800px</small></p>
+                            <p><small> -El alto mínimo es de 400px</small></p>
+                            <label style="display:block" for="cover_url">
                                 <input class="form-control-file mt-1" name="cover_url" type="text" placeholder="Ingresar url" value={{old('cover_url')}}>
+                                @error('cover_url')
+                                  <p>{{$message}}</p>
+                                @enderror
                                 @if(isset($failed_image_size)&&$failed_image_size==true)
                                   {{$message_image_size}}
                                 @endif
@@ -98,7 +103,9 @@
                             <textarea id="editor" name="body" placeholder="Escribe tu Post..." rows="10" cols="20">
                                     {{old('body')}}
                             </textarea>
-                                
+                              @error('body')
+                              {{$message}}
+                              @enderror
                             <script>
 
                                 CKEDITOR.replace( 'editor', {

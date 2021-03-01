@@ -17,6 +17,7 @@ use App\Models\Video;
 use App\Models\Role;
 use App\Models\Comment;
 use App\Models\Answer;
+use App\Models\Like;
 
 class User extends Authenticatable
 {
@@ -120,6 +121,17 @@ class User extends Authenticatable
     //Relación N:N - 1 user puede dar like a muchos posts.
     public function posts_likes(){
         return $this->belongsToMany(Post::class, 'likes');
+    }
+
+    //Relación N:N - 1 user puede dar like a muchos posts.
+    public function dio_like($post_id, $user_id){
+        $diolike = Like::where('post_id', '=', "$post_id")->where('user_id', '=', "$user_id")->get()->all();
+        if(sizeof($diolike)>0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }
