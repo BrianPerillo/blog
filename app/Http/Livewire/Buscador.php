@@ -44,8 +44,8 @@ class Buscador extends Component
 
                 if(strlen($this->search)>0){
 
-                //Reseteo offset
-                $this->offset = 0;
+                // //Reseteo offset
+                // $this->offset = 0;
 
                 //Guardo lo que llega en $search
                     $search = $this->search;

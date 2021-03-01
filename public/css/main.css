@@ -21,6 +21,17 @@ input:focus{
   outline: none;
 }
 
+/* Paginado */
+
+.off{
+  background-color:#e0e0e0
+}
+
+button {
+  outline: none;
+}
+
+
 /* MASONRY */
 
 .container-masonry{
