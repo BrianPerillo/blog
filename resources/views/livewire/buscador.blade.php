@@ -129,7 +129,7 @@
         
         @if(sizeof($posts)>0)
             @foreach($posts as $post)
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 mb-4" style="display:flex;align-items: center">
+                <div class="post col-xs-12 col-sm-12 col-md-6 col-lg-4 mb-4" style="display:flex;align-items: center">
                     <a href="{{route('posts.show', [$post->id, $post->name])}}" style="color:white">
                         <div class="" style="position:relative; width:100%;">
                             <img src="{{$post->image->url}}" style="border-radius:8px; width: 100%;height:100%;object-fit: cover;" alt="">
@@ -141,7 +141,7 @@
 
         @elseif(1==0)
             @foreach($users as $user)
-                <div class="col-md-4 col-sm-12 mb-4" style="display:flex;align-items: center;width:30%">
+                <div class="post col-md-4 col-sm-12 mb-4" style="display:flex;align-items: center;width:30%">
                     <a href="{{route('user.posts', $user->id)}}" style="color:white">
                         <div class="" style="position:relative; width:100%;">
                             <!--<img src="" style="border-radius:8px; width: 100%;height:100%;object-fit: cover;" alt="">-->
