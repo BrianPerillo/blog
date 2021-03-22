@@ -9,7 +9,9 @@
         <div class="container mt-0 p-4" style="border-radius:10px;background-color: white">
             
             <div class="m-4">
-                <p style="margin-left:-20px;margin-bottom:40px">Autor: {{$post->user->name}}</p>
+                <p style="margin-left:-20px;margin-bottom:40px">Autor: 
+                    <a href="{{route('user.profile', $post->user)}}">{{$post->user->name}}</a>
+                </p>
                 <p style="font-size:10px;">
                     <h2>{{$post->name}}</h2>
                 </p>

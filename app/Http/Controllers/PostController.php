@@ -232,6 +232,14 @@ class PostController extends Controller
         
     }
 
+    public function user_profile(User $user){
+
+        $lasts_posts = Post::where('user_id', '=', "$user->id")->orderBy('id', 'DESC')->limit(3)->get()->all(); 
+
+        return view('user.profile', with(compact('user', 'lasts_posts')));
+
+    }
+
     public function posts_user(User $user){
 
         if(User::find(auth()->user()) && auth()->user()->id == $user->id){
@@ -246,6 +254,14 @@ class PostController extends Controller
         }
 
         
+    }
+
+    public function favoritos_user(User $user){
+
+        $posts = $user->posts_likes()->paginate(7);
+
+        return view('user.favoritos', with(compact('posts', 'user')));
+
     }
 
     public function show($id, $post){
@@ -287,7 +303,7 @@ class PostController extends Controller
         ]);
 
         $imageSize = getimagesize("$request->cover_url");
-        if(($imageSize[0]>=1200 && $imageSize[1]>800) || $imageSize[0]<$imageSize[1] ||$imageSize[1]<400){ 
+        if(($imageSize[0]>1200 && $imageSize[1]>800) || $imageSize[0]<$imageSize[1] ||$imageSize[1]<400){ 
             $categorias = Category::get()->all();
             $failed_image_size = true;
             $message_image_size = "La imagen excede tamaño máximo permitido";
@@ -374,5 +390,6 @@ class PostController extends Controller
 
         return redirect()->route('posts.show', [$post->id, $post->name]);
     }
+
 
 }

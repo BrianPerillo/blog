@@ -33,6 +33,11 @@
                             Mis Posts
                         </x-jet-nav-link>
                     </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-jet-nav-link href="{{ route('user.favoritos', auth()->user()->id) }}" :active="request()->routeIs('user.favoritos')">
+                            Favoritos
+                        </x-jet-nav-link>
+                    </div>
                 @endif
             </div>
 
@@ -192,6 +197,11 @@
             <div class="space-x-8 sm:-my-px sm:ml-10 sm:flex">
                 <x-jet-responsive-nav-link href="{{ route('user.posts', auth()->user()->id) }}" :active="request()->routeIs('user.posts')">
                     {{ "Mis Posts" }}
+                </x-jet-responsive-nav-link>
+            </div>
+            <div class="space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <x-jet-responsive-nav-link href="{{ route('user.favoritos', auth()->user()->id) }}" :active="request()->routeIs('user.favoritos')">
+                    Favoritos
                 </x-jet-responsive-nav-link>
             </div>
         @endif

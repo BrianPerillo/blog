@@ -23,7 +23,11 @@ Route::get('/filter', [PostController::class, 'posts_filtrados'])->name('dashboa
 
 //Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [PostController::class, 'posts'])->name('dashboard');
 
+Route::get('/{user}/profile', [PostController::class, 'user_profile'])->name('user.profile');
+
 Route::get('/{user}/posts', [PostController::class, 'posts_user'])->name('user.posts');
+
+Route::get('/{user}/favoritos', [PostController::class, 'favoritos_user'])->name('user.favoritos');
 
 Route::get('/post/{id}/{post}', [PostController::class, 'show'])->name('posts.show');
 

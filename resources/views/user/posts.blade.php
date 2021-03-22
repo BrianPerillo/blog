@@ -34,7 +34,7 @@
                                             </form>
                                         </div>
                                         <div class="float-left mr-2">
-                                            <form action="{{route('posts.delete', [$post,$user])}}" method="post">
+                                            <form class="formulario-eliminar" action="{{route('posts.delete', [$post,$user])}}" method="post">
                                                 @csrf
                                                 @method('delete')
                                                 <button class="btn btn-danger" type="submit">
@@ -58,3 +58,33 @@
         </div>
     </div>
 </x-app-layout>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script>
+    $(".formulario-eliminar").submit(function(e){
+        e.preventDefault();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+            Swal.fire(
+                'Deleted!',
+                'Your file has been deleted.',
+                'success'
+            )
+            this.submit();
+            }
+
+        })      
+
+    });
+
+    </script>

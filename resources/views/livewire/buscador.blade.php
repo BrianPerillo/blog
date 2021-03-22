@@ -3,7 +3,7 @@
     <div class="row col-md-12 m-0 mb-3 d-flex justify-content-center">
         <!-- Search -->
         <form class="col-md-7 col-lg-6 col-xl-4 mb-5 mt-3 d-flex justify-content-center" wire:submit.prevent="filtrarSearch">
-            <input class="input-text" wire:model="search" type="text" placeholder="Buscá por título o tag" >
+            <input class="input-text" wire:model="search" type="text" placeholder="Buscá por título" >
         </form>
     </div>
 

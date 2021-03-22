@@ -34,6 +34,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
         <!-- CKFinder scripts -->
         @include('ckfinder::setup')
+
         
         @livewireStyles
         @livewireScripts
@@ -65,4 +66,8 @@
         @stack('modals')
 
     </body>
+
+        <!-- Sweet Alert -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </html>
