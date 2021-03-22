@@ -15,9 +15,7 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('suscriber_id');
             $table->unsignedBigInteger('post_id');
-            $table->foreign('suscriber_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->boolean('viewed');
         });
