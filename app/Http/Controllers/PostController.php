@@ -232,38 +232,6 @@ class PostController extends Controller
         
     }
 
-    public function user_profile(User $user){
-
-        $lasts_posts = Post::where('user_id', '=', "$user->id")->orderBy('id', 'DESC')->limit(3)->get()->all(); 
-
-        return view('user.profile', with(compact('user', 'lasts_posts')));
-
-    }
-
-    public function posts_user(User $user){
-
-        if(User::find(auth()->user()) && auth()->user()->id == $user->id){
-            $posts = $user->posts()->orderBy('id','DESC')->paginate(7);
-            $authorized = true;
-            return view('user.posts', with(compact('posts', 'user', 'authorized')));
-        }
-        else{
-            $posts = $user->posts()->get()->all();
-            $authorized = false;
-            return view('user.posts', with(compact('posts', 'user', 'authorized')));
-        }
-
-        
-    }
-
-    public function favoritos_user(User $user){
-
-        $posts = $user->posts_likes()->paginate(7);
-
-        return view('user.favoritos', with(compact('posts', 'user')));
-
-    }
-
     public function show($id, $post){
         $post = Post::find($id);
 
@@ -319,6 +287,7 @@ class PostController extends Controller
         $post->user_id = "$request->user_id";
         $post->tags = "$request->tag_2"; 
         $post->likes = 0; 
+        $post->cover = "$request->cover_url";
         $post->save();
 
         $id_post = auth()->user()->last_post()->id;

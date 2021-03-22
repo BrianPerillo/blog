@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CursoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CkeditorController;
 use App\Http\Livewire\LikeComponent;
 /*
@@ -23,13 +24,11 @@ Route::get('/filter', [PostController::class, 'posts_filtrados'])->name('dashboa
 
 //Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [PostController::class, 'posts'])->name('dashboard');
 
-Route::get('/{user}/profile', [PostController::class, 'user_profile'])->name('user.profile');
+Route::get('/{user}/profile', [UserController::class, 'user_profile'])->name('user.profile');
 
-Route::get('/{user}/posts', [PostController::class, 'posts_user'])->name('user.posts');
+Route::get('/{user}/posts', [UserController::class, 'posts_user'])->name('user.posts');
 
-Route::get('/{user}/favoritos', [PostController::class, 'favoritos_user'])->name('user.favoritos');
-
-Route::get('/post/{id}/{post}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/{user}/favoritos', [UserController::class, 'favoritos_user'])->name('user.favoritos');
 
 Route::get('/post/create', [PostController::class, 'create'])->name('posts.create');
 
@@ -38,6 +37,10 @@ Route::post('/post/create', [PostController::class, 'store'])->name('posts.store
 Route::get('/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
 
 Route::put('/{post}/update', [PostController::class, 'update'])->name('posts.update');
+
+Route::get('/{subscriber}/{creator}', [UserController::class, 'user_subscribe'])->name('user.subscribe');
+
+Route::get('/post/{id}/{post}', [PostController::class, 'show'])->name('posts.show');
 
 Route::delete('/{post}/{user}/delete', [PostController::class, 'destroy'])->name('posts.delete');
 

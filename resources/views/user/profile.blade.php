@@ -26,11 +26,11 @@
                 <p> Ultimos Posts </p>
 
                 <div class="m-2">
-                    @for ($i=0;$i<3;$i++)
+                    @foreach ($lasts_posts as $last_post)
                     
-                        <p>{{$lasts_posts[$i]->name}}</p>
+                        <p>{{$last_post->name}}</p>
 
-                    @endfor
+                    @endforeach
                 </div>
             </div>
 
@@ -41,9 +41,10 @@
             </div>           
            
             {{-- Suscribirse --}}
-        
-            <button class="btn btn-danger">Suscribirse</button>
 
+            <form action="{{route("user.subscribe", [auth()->user(), $user])}}">
+                <button class="btn btn-danger">Suscribirse</button>
+            </form>
         </div>
 
     </div>
