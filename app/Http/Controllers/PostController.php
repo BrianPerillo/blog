@@ -278,6 +278,8 @@ class PostController extends Controller
             return view('posts.create', compact('categorias','failed_image_size','message_image_size'));
 
     }
+
+    //Guardo post en DB
         
         $post = new Post();
         
@@ -290,13 +292,17 @@ class PostController extends Controller
         $post->cover = "$request->cover_url";
         $post->save();
 
-        $id_post = auth()->user()->last_post()->id;
 
-        $cover = new Image();
-        $cover->url = "$request->cover_url";
-        $cover->imageable_id = "$id_post";
-        $cover->imageable_type = "App\Models\Post";
-        $cover->save();
+    //Guardo Imagen del post
+
+        //$id_post = auth()->user()->last_post()->id;
+        // $cover = new Image();
+        // $cover->url = "$request->cover_url";
+        // $cover->imageable_id = "$id_post";
+        // $cover->imageable_type = "App\Models\Post";
+        // $cover->save();
+
+
 
         return redirect()->route('posts.show', [$post->id, $post->name]);
         

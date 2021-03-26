@@ -132,7 +132,7 @@
                 <div class="post col-xs-12 col-sm-12 col-md-6 col-lg-4 mb-4" style="display:flex;align-items: center">
                     <a href="{{route('posts.show', [$post->id, $post->name])}}" style="color:white">
                         <div class="" style="position:relative; width:100%;">
-                            <img src="{{$post->image->url}}" style="border-radius:8px; width: 100%;height:100%;object-fit: cover;" alt="">
+                            <img src="{{$post->cover}}" style="border-radius:8px; width: 100%;height:100%;object-fit: cover;" alt="">
                             <div class="card-title text-center m-0" style="text-overflow: ellipsis;overflow: hidden;display:flex;align-items:center;border-radius:0px 0px 8px 8px;width:100%;height:31%;background-color: rgba(0, 0, 0, 0.5);position:absolute;bottom:0px;left:0px"><p class="m-auto text-overflow: ellipsis;overflow: hidden;">{{$post->name}}</p></div>
                         </div>
                     </a>
