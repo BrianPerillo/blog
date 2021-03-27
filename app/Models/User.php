@@ -18,6 +18,7 @@ use App\Models\Role;
 use App\Models\Comment;
 use App\Models\Answer;
 use App\Models\Like;
+use App\Models\Notification;
 
 class User extends Authenticatable
 {
@@ -123,6 +124,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Post::class, 'likes');
     }
 
+    //Notificaciones 1:N - 1 user puede tener muchas notificaciones.
+    public function notifications(){
+        return $this->hasMany(Notification::class);
+    }
+
     //Relación N:N - 1 user puede dar like a muchos posts.
     public function dio_like($post_id, $user_id){
         $diolike = Like::where('post_id', '=', "$post_id")->where('user_id', '=', "$user_id")->get()->all();
@@ -133,5 +139,8 @@ class User extends Authenticatable
             return false;
         }
     }
+
+
+
 
 }

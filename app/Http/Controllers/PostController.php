@@ -11,7 +11,8 @@ use App\Models\Comment;
 use App\Models\Image;
 use App\Models\Answer;
 use App\Models\Like;
-
+use App\Models\Notification;
+use App\Models\Subscription;
 use Livewire\WithPagination;
 
 class PostController extends Controller
@@ -302,7 +303,17 @@ class PostController extends Controller
         // $cover->imageable_type = "App\Models\Post";
         // $cover->save();
 
+    //Guardo notificaciones del post creado a los suscriptores
 
+        $subscribers = Subscription::where('creator_id', '=', "$request->user_id")->get()->all();
+
+        foreach($subscribers as $subscriber){
+            $notification = new Notification();
+            $notification->user_id = $subscriber->subscriber_id;
+            $notification->post_id = $post->id;
+            $notification->viewed = false;
+            $notification->save();
+        }
 
         return redirect()->route('posts.show', [$post->id, $post->name]);
         

@@ -15,9 +15,9 @@ class CreateSubscriptionsTable extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('suscriber_id');
+            $table->unsignedBigInteger('subscriber_id');
             $table->unsignedBigInteger('creator_id');
-            $table->foreign('suscriber_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('subscriber_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

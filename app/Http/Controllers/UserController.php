@@ -49,7 +49,11 @@ class UserController extends Controller
 
         $subscription = new Subscription;
 
-        return dd($creator);
+        $subscription->subscriber_id = $subscriber->id; 
+        $subscription->creator_id = $creator->id; 
+        $subscription->save();
+
+        return redirect()->back();
 
     }
 
