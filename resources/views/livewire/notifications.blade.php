@@ -19,7 +19,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <div class="p-2" style="width:100%;word-wrap: break-word;height:250px;overflow:scroll;overflow-x: hidden;">
+                        <div class="p-2" style="width:100%;word-wrap: break-word;max-height:250px;overflow:scroll;overflow-x: hidden;">
                             @foreach ($notifications as $notification)
                                 <a href="" style="text-decoration: none;color:black">
                                     <div id="notification" class="p-2 col mb-1" style="overflow:hidden">

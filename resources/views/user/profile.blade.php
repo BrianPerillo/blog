@@ -40,16 +40,19 @@
                 <p> <a href=""> Ver todos los posts </a> </p>
             </div>           
            
-            {{-- Suscribirse --}}
+            {{-- Suscribirse --}} 
 
-            @if($esta_subscripto && auth()->user()->id !== $user->id)
+                <!-- Va a aparecer el button suscribirme o desuscribirme cuando siempre y cuando esté viendo el perfil de otro usuario no el suyo propio  -->
+                <!-- ya que no debería poder suscribirse a su propio "canal". Esto lo controlo desde el if y elseif de abajo-->
+
+            @if($esta_subscripto && auth()->user()->id !== $user->id) <!-- Si está suscrito y el perfil NO ES EL PROPIO -->
                 <form action="{{route("user.unsubscribe", [auth()->user(), $user])}}" method="post">
                     @csrf
                     @method('delete')
 
                     <button class="btn btn-danger">Desuscribirme</button>
                 </form>
-            @elseif(!$esta_subscripto && auth()->user()->id !== $user->id)
+            @elseif(!$esta_subscripto && auth()->user()->id !== $user->id) <!-- Si no está suscrito y el perfil NO ES EL PROPIO -->
                 <form action="{{route("user.subscribe", [auth()->user(), $user])}}" method="post">
                     @csrf
                     
