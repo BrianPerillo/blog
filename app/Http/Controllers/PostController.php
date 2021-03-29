@@ -256,6 +256,7 @@ class PostController extends Controller
         return view('posts.create', compact('categorias'));
     }
 
+    // Función para guardar un post creado: Además de registrar el post, envía notificación a los suscriptores.
     public function store(Request $request){
 
         //los tags llegan en un string separados por coma(tag1,tag2,tag3) para convertir eso en un array donde cada palabra ocupe una posición se utiliza explode().

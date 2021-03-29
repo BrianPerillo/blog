@@ -21,7 +21,7 @@ switch ($width) {
 }
 @endphp
 
-<div class="relative" style="width:60%;margin:auto;box-sizing: border-box;" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
+<div class="relative" style="width:60%;box-sizing: border-box;" x-data="{ open: false }" @click.away="open = false" @close.stop="open = false">
     <div @click="open = ! open">
         {{ $trigger }}
     </div>

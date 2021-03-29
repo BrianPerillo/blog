@@ -38,10 +38,6 @@
                             Favoritos
                         </x-jet-nav-link>
                     </div>
-                    
-                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <livewire:notifications />
-                    </div>
 
                 @endif
             </div>
@@ -137,6 +133,7 @@
                                     </button>
                                 </span>
                             @endif
+
                         </x-slot>
 
                         <x-slot name="content">
@@ -169,7 +166,14 @@
                             </form>
                         </x-slot>
                     </x-jet-dropdown>
+
+                </div>         
+
+                <!-- Notificaciones -->
+                <div class="float-right hidden sm:flex">
+                    <livewire:notifications />
                 </div>
+
             </div>
             @endif
 

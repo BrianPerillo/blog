@@ -42,9 +42,21 @@
            
             {{-- Suscribirse --}}
 
-            <form action="{{route("user.subscribe", [auth()->user(), $user])}}">
-                <button class="btn btn-danger">Suscribirse</button>
-            </form>
+            @if($esta_subscripto && auth()->user()->id !== $user->id)
+                <form action="{{route("user.unsubscribe", [auth()->user(), $user])}}" method="post">
+                    @csrf
+                    @method('delete')
+
+                    <button class="btn btn-danger">Desuscribirme</button>
+                </form>
+            @elseif(!$esta_subscripto && auth()->user()->id !== $user->id)
+                <form action="{{route("user.subscribe", [auth()->user(), $user])}}" method="post">
+                    @csrf
+                    
+                    <button class="btn btn-danger">Suscribirme</button>
+                </form>
+            @endif
+           
         </div>
 
     </div>

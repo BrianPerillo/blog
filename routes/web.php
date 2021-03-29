@@ -38,7 +38,9 @@ Route::get('/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
 
 Route::put('/{post}/update', [PostController::class, 'update'])->name('posts.update');
 
-Route::get('/{subscriber}/{creator}', [UserController::class, 'user_subscribe'])->name('user.subscribe');
+Route::post('/subscribe/{subscriber}/{creator}', [UserController::class, 'user_subscribe'])->name('user.subscribe');
+
+Route::delete('/unsubscribe/{subscriber}/{creator}', [UserController::class, 'user_unsubscribe'])->name('user.unsubscribe');
 
 Route::get('/post/{id}/{post}', [PostController::class, 'show'])->name('posts.show');
 

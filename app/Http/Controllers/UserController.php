@@ -17,7 +17,23 @@ class UserController extends Controller
 
         $lasts_posts = Post::where('user_id', '=', "$user->id")->orderBy('id', 'DESC')->limit(3)->get()->all(); 
 
-        return view('user.profile', with(compact('user', 'lasts_posts')));
+        $user_id = auth()->user()->id;
+
+        // Consulto si el usuario ya se encuentra suscrito al perfil del creador, si la consulta no trae resultados es porque no está suscrito.
+        $subscription = Subscription::where('subscriber_id', '=', "$user_id")->where('creator_id', '=', "$user->id")->get()->all();
+        // creo variable booleana según esté suscrito o no para que la vista elija el formulario a mostrar (Suscribirme o Desuscribirme)
+        if(sizeof($subscription)>0){
+            $esta_subscripto = true;
+        }
+        else{
+            $esta_subscripto = false;
+        }
+
+        // if(){
+
+        // }
+
+        return view('user.profile', with(compact('user', 'lasts_posts', 'esta_subscripto')));
 
     }
 
@@ -52,6 +68,15 @@ class UserController extends Controller
         $subscription->subscriber_id = $subscriber->id; 
         $subscription->creator_id = $creator->id; 
         $subscription->save();
+
+        return redirect()->back();
+
+    }
+
+    public function user_unsubscribe(User $subscriber, User $creator){
+
+        $subscription = Subscription::where('subscriber_id', '=', "$subscriber->id")->where('creator_id', '=', "$creator->id")->first();
+        $subscription->delete();
 
         return redirect()->back();
 
