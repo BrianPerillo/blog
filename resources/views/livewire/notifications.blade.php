@@ -22,58 +22,64 @@
                         <div class="p-2" style="width:100%;word-wrap: break-word;max-height:250px;overflow:scroll;overflow-x: hidden;">
                             @foreach ($notifications as $notification)
 
-                                            <!-- Si es una notifiación de un post -->
-                                            @if($notification->notificationable_type == "App\Models\Post")
-                                                <a href="{{route("posts.show", [$notification->notificationable->id, $notification->notificationable->name])}}" style="text-decoration: none;color:black">
-                                                <div id="notification" class="p-2 col mb-1" style="overflow:hidden">
-            
-                                                <div style="float:left;width:100%;margin-right:30px">
-                                                
+                                <!-- Si es una notifiación de un post -->
+                                @if($notification->notificationable_type == "App\Models\Post")
+                                    <a href="{{route("posts.show", [$notification->notificationable->id, $notification->notificationable->name])}}" style="text-decoration: none;color:black">
+                                        <div id="notification" class="p-2 col mb-1" style="overflow:hidden">
+                                                        
+                                            <div style="float:left;width:100%;margin-right:30px">
+                                                        
                                                 <div style="width:50%;float:left;">
                                                     <img id="notification_cover" src="{{$notification->notificationable->cover}}" style="margin-top:22px;height:70px;border-radius:5px;">
                                                 </div>
 
                                                 <div style="width:40%;float:right;margin-top:15px">
                                                     <p id="notification_name" style="font-size: 13px">
-                                                       User a creado un nuevo post:
+                                                    User a creado un nuevo post:
                                                     </p>
                                                     <p id="notification_name" style="font-size: 13px">
                                                         "{{$notification->notificationable->name}}"
                                                     </p>
                                                 </div>
 
-                                                </div>
-                                                </div>
-                                                </a>
-                                            <!-- Si no, (o sea es una notifiación de un comentario/respuesta) -->    
-                                            @elseif($notification->notificationable_type == "App\Models\Comment")                              
-                                                <a href="{{route("posts.show", [$notification->notificationable->post->id, $notification->notificationable->post->name])}}" style="text-decoration: none;color:black">
-                                                <div id="notification" class="p-2 col mb-1" style="overflow:hidden">
-            
-                                                <div style="float:left;width:100%;margin-right:30px">
+                                            </div>
+                                        </div>
+                                    </a>
 
-                                                    <div style="width:50%;float:left;">
-                                                        <img id="notification_cover" src="{{$notification->notificationable->post->cover}}" style="margin-top:22px;height:70px;border-radius:5px;">
-                                                    </div>
-                                                    
-                                                    <div style="width:40%;float:right;margin-top:15px">
-                                                        <p id="notification_name" style="font-size: 12px" >
-                                                            <span style="font-weight: bold">{{$notification->notificationable->user->name}}</span>
-                                                            ha comentado tu post: 
-                                                            <span style="color:rgb(0, 140, 255);">{{$notification->notificationable->post->name}}</span>
-                                                        </p>
-                                                        <p id="notification_name" class="">
+                                <!-- Si no, (o sea es una notifiación de un comentario/respuesta) -->    
+                                @elseif($notification->notificationable_type == "App\Models\Comment")                              
+                                    <a href="{{route("posts.show", [$notification->notificationable->post->id, $notification->notificationable->post->name])}}" style="text-decoration: none;color:black">
+                                        <div id="notification" class="p-2 col mb-1" style="overflow:hidden">
+                
+                                            <div style="float:left;width:100%;margin-right:30px">
+
+                                                <div style="width:50%;float:left;">
+                                                    <img id="notification_cover" src="{{$notification->notificationable->post->cover}}" style="margin-top:22px;height:70px;border-radius:5px;">
+                                                </div>
+                                                            
+                                                <div style="width:40%;float:right;margin-top:15px">
+                                                    <p id="notification_name" style="font-size: 12px" >
+                                                        <span style="font-weight: bold">{{$notification->notificationable->user->name}}</span>
+                                                        ha comentado tu post: 
+                                                        <span style="color:rgb(0, 140, 255);">{{$notification->notificationable->post->name}}</span>
+                                                    </p>
+                                                    <p id="notification_name" style="font-size: 13px" class="">
+                                                        @if(strlen($notification->notificationable->message) > 15)
+                                                            @php 
+                                                                echo('"'.substr($notification->notificationable->message,0,22). " ..." . '"') 
+                                                            @endphp
+                                                        @else
                                                             "{{$notification->notificationable->message}}"
-                                                        </p>
-                                               
-                                                    </div>
- 
+                                                        @endif
+                                                    </p>
+                                                    
                                                 </div>
-                                                </div>
-                                                </a>
+        
+                                            </div>
+                                        </div>
+                                    </a>
 
-                                            @endif
-
+                                @endif
 
                                 <hr>
                             @endforeach
