@@ -29,30 +29,39 @@
                                             <!-- Si es una notifiación de un post -->
                                             @if($notification->notificationable_type == "App\Models\Post")
                                                 
-                                                <div style="float:left;margin-right:30px"><img id="notification_cover" src="{{$notification->notificationable->cover}}" style="width:140px;height:70px;border-radius:5px;"></div>
-                                                <div class="d-flex justify-content-center" style="float:left;margin-top:15px">
-                                                    <p id="notification_name">
-                                                        {{$notification->notificationable->name}}
+                                                
+                                                <div style="width:50%;float:left;">
+                                                    <img id="notification_cover" src="{{$notification->notificationable->cover}}" style="margin-top:22px;height:70px;border-radius:5px;">
+                                                </div>
+
+                                                <div style="width:40%;float:right;margin-top:15px">
+                                                    <p id="notification_name" style="font-size: 13px">
+                                                       User a creado un nuevo post:
+                                                    </p>
+                                                    <p id="notification_name" style="font-size: 13px">
+                                                        "{{$notification->notificationable->name}}"
                                                     </p>
                                                 </div>
                                             
                                             <!-- Si no, (o sea es una notifiación de un comentario/respuesta) -->    
-                                            @else                              
-                                                <div class="row">
+                                            @elseif($notification->notificationable_type == "App\Models\Comment")                              
+                                              
 
-                                                    <div class="col" style="float:left;margin-right:30px">
-                                                        <img id="notification_cover" src="{{$notification->notificationable->cover}}" style="margin-top:22px;width:140px;height:70px;border-radius:5px;">
+                                                    <div style="width:50%;float:left;">
+                                                        <img id="notification_cover" src="{{$notification->notificationable->post->cover}}" style="margin-top:22px;height:70px;border-radius:5px;">
                                                     </div>
-
-                                                    <div class="col" style="float:left;margin-top:15px">
-                                                        <p style="font-size: 12px" >
-                                                            Han comentado tu post
+                                                    
+                                                    <div style="width:40%;float:right;margin-top:15px">
+                                                        <p id="notification_name" style="font-size: 12px" >
+                                                            <span style="font-weight: bold">{{$notification->notificationable->post->user->name}}</span> 
+                                                            ha comentado tu post: 
+                                                            <span style="color:rgb(0, 140, 255);">{{$notification->notificationable->post->name}}</span>
                                                         </p>
-                                                        <p class="" id="notification_name">
-                                                            {{$notification->notificationable->message}}
+                                                        <p id="notification_name" class="">
+                                                            "{{$notification->notificationable->message}}"
                                                         </p>
-                                                </div>
-                                                </div>
+                                               
+                                                    </div>
                                                 
                                             @endif
 

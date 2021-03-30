@@ -38,7 +38,7 @@ class Notifications extends Component
         //Traigo los datos de las notificaciones: 
             //Consulto los ids de los posts que se encuentran en notifications y los guardo en el array posts_id:
                 $user_id = auth()->user()->id;
-                $this->notifications = Notification::where('user_id', '=', "$user_id")->get();
+                $this->notifications = Notification::where('user_id', '=', "$user_id")->orderBy('id', 'DESC')->get();
 
                 // foreach(auth()->user()->notifications as $notification){
                 //     array_push($this->notifications, "$notification");

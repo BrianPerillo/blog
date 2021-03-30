@@ -17,13 +17,13 @@
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgba(214, 214, 214, 0.432); 
+  background: rgba(214, 214, 214, 0.459); 
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(214, 214, 214, 0.61); 
+  background: rgba(214, 214, 214, 0.658); 
 }
 
 #notification:hover {
@@ -53,8 +53,8 @@
 }
 
 #notification_name{
-  color: rgba(104, 104, 104, 0.822);
-  transition: all 500ms;
+  color: rgb(90, 90, 90);
+  transition: all 200ms;
 
 }
 

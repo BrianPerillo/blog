@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\User;
+use App\Models\Post;
+use App\Models\Answer;
+
 class Comment extends Model
 {
     use HasFactory;
@@ -22,6 +26,11 @@ class Comment extends Model
 
     public function answers(){
         return $this->hasMany(Answer::class);
+    }
+
+    //Relación 1:1 - 1 comentario puede pertenecer a 1 post.
+    public function post(){
+        return $this->belongsTo(Post::class, 'commentable_id');
     }
 
 }
