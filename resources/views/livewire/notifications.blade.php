@@ -53,7 +53,7 @@
                                                     
                                                     <div style="width:40%;float:right;margin-top:15px">
                                                         <p id="notification_name" style="font-size: 12px" >
-                                                            <span style="font-weight: bold">{{$notification->notificationable->post->user->name}}</span> 
+                                                            <span style="font-weight: bold">{{$notification->notificationable->user->name}}</span>
                                                             ha comentado tu post: 
                                                             <span style="color:rgb(0, 140, 255);">{{$notification->notificationable->post->name}}</span>
                                                         </p>
