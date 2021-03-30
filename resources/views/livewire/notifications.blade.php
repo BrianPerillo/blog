@@ -64,9 +64,9 @@
                                                         <span style="color:rgb(0, 140, 255);">{{$notification->notificationable->post->name}}</span>
                                                     </p>
                                                     <p id="notification_name" style="font-size: 13px" class="">
-                                                        @if(strlen($notification->notificationable->message) > 15)
+                                                        @if(strlen($notification->notificationable->message) > 35)
                                                             @php 
-                                                                echo('"'.substr($notification->notificationable->message,0,22). " ..." . '"') 
+                                                                echo('"'.substr($notification->notificationable->message,0,35). " ..." . '"') 
                                                             @endphp
                                                         @else
                                                             "{{$notification->notificationable->message}}"
