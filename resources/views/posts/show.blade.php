@@ -23,7 +23,7 @@
                 </p>
                 
                 @if($post->tags)
-                {{"Tags: ".$post->tags}}</br>
+                {{"Tags: ". $post->tags}}</br>
                 @endif
 
                 @if(auth()->user())
@@ -37,7 +37,7 @@
                 @if (auth()->user())
                 
                 
-                    <form action="{{route('posts.store_comment', [$post->id, $post->name])}}" method="POST">
+                    <form action="{{route('posts.store_comment', [$post->id])}}" method="POST">
 
                         @csrf
 
@@ -60,9 +60,7 @@
                                                 <input type='submit' class="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100" value='Comentar'>
                                             </div>
                                         </div>
-                                    </div>
-                                
-                            
+                                    </div>    
                         
 
                     </form></br></br>

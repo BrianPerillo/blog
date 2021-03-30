@@ -310,8 +310,9 @@ class PostController extends Controller
 
         foreach($subscribers as $subscriber){
             $notification = new Notification();
+            $notification->notificationable_id = $post->id;
+            $notification->notificationable_type = "App\Models\Post";
             $notification->user_id = $subscriber->subscriber_id;
-            $notification->post_id = $post->id;
             $notification->viewed = false;
             $notification->save();
         }
@@ -353,8 +354,9 @@ class PostController extends Controller
         return redirect()->route('user.posts', with(compact('posts', 'user', 'authorized')));
     }
 
-    public function store_comment(Post $post, Request $request){
-
+    public function store_comment(Post $post, Request $request){ // Además de recibir el post y la request debe recibir el dato "user"
+                                                                 // si es una resupuea el usuario al que le responden un comentario o 
+                                                                 // si es un comentario el usuario al que le comentaron su post.
         $comment = new Comment();
 
         $comment->message = "$request->comment";
@@ -362,6 +364,14 @@ class PostController extends Controller
         $comment->commentable_type = "App\Models\Post";
         $comment->user_id = auth()->user()->id; //Este dato al ser un DATO SENSIBLE aunque podría pasarlo la vista con un input hidden directamente lo pide el Controller
         $comment->save();
+
+        // Hay que crear la notificación para: A- Si se trata de un comentario -> El creador o B- Si se trata de una respuesta -> el usuario al que le responden. 
+        $notification = new Notification();
+        $notification->notificationable_id = $comment->id;
+        $notification->notificationable_type = "App\Models\Comment";
+        $notification->user_id = $post->user_id;
+        $notification->viewed = false;
+        $notification->save();
 
         return redirect()->route('posts.show', [$post->id, $post->name]);
     }

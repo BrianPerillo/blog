@@ -25,10 +25,36 @@
                                     <div id="notification" class="p-2 col mb-1" style="overflow:hidden">
 
                                         <div style="float:left;width:100%;margin-right:30px">
-            
-                                            <!-- Cover -->
-                                            <div style="float:left;margin-right:30px"><img id="notification_cover" src="{{$notification->cover}}" style="width:140px;height:70px;border-radius:5px;"></div>
-                                            <div class="d-flex justify-content-center" style="float:left;margin-top:15px"><p id="notification_name">{{$notification->name}}</p></div>
+
+                                            <!-- Si es una notifiación de un post -->
+                                            @if($notification->notificationable_type == "App\Models\Post")
+                                                
+                                                <div style="float:left;margin-right:30px"><img id="notification_cover" src="{{$notification->notificationable->cover}}" style="width:140px;height:70px;border-radius:5px;"></div>
+                                                <div class="d-flex justify-content-center" style="float:left;margin-top:15px">
+                                                    <p id="notification_name">
+                                                        {{$notification->notificationable->name}}
+                                                    </p>
+                                                </div>
+                                            
+                                            <!-- Si no, (o sea es una notifiación de un comentario/respuesta) -->    
+                                            @else                              
+                                                <div class="row">
+
+                                                    <div class="col" style="float:left;margin-right:30px">
+                                                        <img id="notification_cover" src="{{$notification->notificationable->cover}}" style="margin-top:22px;width:140px;height:70px;border-radius:5px;">
+                                                    </div>
+
+                                                    <div class="col" style="float:left;margin-top:15px">
+                                                        <p style="font-size: 12px" >
+                                                            Han comentado tu post
+                                                        </p>
+                                                        <p class="" id="notification_name">
+                                                            {{$notification->notificationable->message}}
+                                                        </p>
+                                                </div>
+                                                </div>
+                                                
+                                            @endif
 
                                         </div>
 

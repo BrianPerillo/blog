@@ -15,10 +15,10 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('notificationable_id');
+            $table->string('notificationable_type',70);
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('post_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->boolean('viewed');
             $table->timestamps();
         });
