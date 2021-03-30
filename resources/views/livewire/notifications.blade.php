@@ -21,14 +21,13 @@
                     <x-slot name="content">
                         <div class="p-2" style="width:100%;word-wrap: break-word;max-height:250px;overflow:scroll;overflow-x: hidden;">
                             @foreach ($notifications as $notification)
-                                <a href="" style="text-decoration: none;color:black">
-                                    <div id="notification" class="p-2 col mb-1" style="overflow:hidden">
-
-                                        <div style="float:left;width:100%;margin-right:30px">
 
                                             <!-- Si es una notifiación de un post -->
                                             @if($notification->notificationable_type == "App\Models\Post")
-                                                
+                                                <a href="{{route("posts.show", [$notification->notificationable->id, $notification->notificationable->name])}}" style="text-decoration: none;color:black">
+                                                <div id="notification" class="p-2 col mb-1" style="overflow:hidden">
+            
+                                                <div style="float:left;width:100%;margin-right:30px">
                                                 
                                                 <div style="width:50%;float:left;">
                                                     <img id="notification_cover" src="{{$notification->notificationable->cover}}" style="margin-top:22px;height:70px;border-radius:5px;">
@@ -42,10 +41,16 @@
                                                         "{{$notification->notificationable->name}}"
                                                     </p>
                                                 </div>
-                                            
+
+                                                </div>
+                                                </div>
+                                                </a>
                                             <!-- Si no, (o sea es una notifiación de un comentario/respuesta) -->    
                                             @elseif($notification->notificationable_type == "App\Models\Comment")                              
-                                              
+                                                <a href="{{route("posts.show", [$notification->notificationable->post->id, $notification->notificationable->post->name])}}" style="text-decoration: none;color:black">
+                                                <div id="notification" class="p-2 col mb-1" style="overflow:hidden">
+            
+                                                <div style="float:left;width:100%;margin-right:30px">
 
                                                     <div style="width:50%;float:left;">
                                                         <img id="notification_cover" src="{{$notification->notificationable->post->cover}}" style="margin-top:22px;height:70px;border-radius:5px;">
@@ -62,13 +67,14 @@
                                                         </p>
                                                
                                                     </div>
-                                                
+ 
+                                                </div>
+                                                </div>
+                                                </a>
+
                                             @endif
 
-                                        </div>
 
-                                    </div>
-                                </a>
                                 <hr>
                             @endforeach
                         </div> 
